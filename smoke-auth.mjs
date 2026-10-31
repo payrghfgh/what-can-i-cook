@@ -77,14 +77,14 @@ function fakeFirebase(user = null) {
     signInWithPopup: async (provider) => {
       calls.push('popup:' + provider.__kind);
       current = { uid: 'u_' + provider.__kind, email: provider.__kind + '@example.com',
-        displayName: 'Asha ' + provider.__kind, providerData: [{ providerId: provider.__kind === 'google' ? 'google.com' : 'apple.com' }] };
+        displayName: 'Asha ' + provider.__kind, providerData: [{ providerId: 'google.com' }] };
       emit();
       return { user: current };
     },
     signOut: async () => { calls.push('signOut'); current = null; emit(); },
     sendPasswordResetEmail: async (email) => { calls.push('reset:' + email); },
     setPersistence: async (remember) => { calls.push('persist:' + remember); },
-    providers: { google: () => ({ __kind: 'google' }), apple: () => ({ __kind: 'apple' }) },
+    providers: { google: () => ({ __kind: 'google' }) },
     __calls: calls
   };
 }
@@ -128,14 +128,13 @@ const page1 = openPage('login.html');
 await import('./login.js?run=1');
 await tick(60);
 
-await check('all four routes are on the page', () => {
+await check('the three routes are on the page', () => {
   assert(page1.$('#guest-btn'), 'no guest button');
   assert(page1.$('#email-form'), 'no email form');
   assert(page1.$('#google-btn'), 'no Google button');
-  assert(page1.$('#apple-btn'), 'no Apple button');
   assert(page1.$('#reset-btn'), 'no password reset');
   assert(page1.$('#setup-notice').hidden, 'the setup notice is showing even though config exists');
-  return 'guest, email, Google, Apple';
+  return 'guest, email, Google';
 });
 
 await check('the page states who verifies sign-in', () => {
@@ -205,7 +204,7 @@ await check('creating an account switches the form and sets a name', async () =>
   return 'account created';
 });
 
-await check('Google and Apple open their provider popups', async () => {
+await check('Google opens its provider popup', async () => {
   const fake4 = fakeFirebase();
   await setAuthBackend(fake4);
   const page = openPage('login.html');
@@ -215,16 +214,7 @@ await check('Google and Apple open their provider popups', async () => {
   page.$('#google-btn').click();
   await waitFor(() => page.navAttempts.find((m) => /navigation/i.test(m)));
   assert(fake4.__calls.includes('popup:google'), 'Google popup not opened: ' + fake4.__calls.join(','));
-
-  const fake5 = fakeFirebase();
-  await setAuthBackend(fake5);
-  const pageB = openPage('login.html');
-  await import('./login.js?run=5');
-  await tick(60);
-  pageB.$('#apple-btn').click();
-  await waitFor(() => pageB.navAttempts.find((m) => /navigation/i.test(m)));
-  assert(fake5.__calls.includes('popup:apple'), 'Apple popup not opened: ' + fake5.__calls.join(','));
-  return 'google and apple';
+  return 'google';
 });
 
 await check('forgot password is offered when signing in, not when creating', async () => {

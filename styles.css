@@ -1051,7 +1051,6 @@ input[type="search"]:focus,
 .auth-label-row .linkish { font-size: .72rem; }
 
 .provider-mark.provider-google { border-color: #4285f4; background: #4285f4; opacity: .85; }
-.provider-mark.provider-apple { border-color: var(--ink); background: var(--ink); opacity: .85; }
 
 /* ---------------------------------------------------------------- sync status */
 

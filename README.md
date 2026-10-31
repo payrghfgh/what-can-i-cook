@@ -8,7 +8,7 @@ at your table, and a shopping list for the gap.
 No backend, no API keys, no build step. Plain HTML, CSS and JavaScript plus
 `recipes.json`, deployable anywhere that serves files.
 
-Sign-in is real: Google, Apple, email/password and guest, all through Firebase
+Sign-in is real: Google, email/password and guest, all through Firebase
 Authentication, and your pantry, saved recipes and shopping list are stored in
 Firestore under your account so they follow you between devices. See
 [Sign-in](#sign-in) below.
@@ -79,9 +79,9 @@ over the file.
 
 ## Sign-in
 
-`login.html` offers four ways in — **Google**, **Apple**, **email and password**
-and **guest** — all backed by **Firebase Authentication**. Firebase checks the
-password server-side and verifies the Google and Apple identity tokens, so this
+`login.html` offers three ways in — **Google**, **email and password**, and
+**guest** — all backed by **Firebase Authentication**. Firebase checks the
+password server-side and verifies the Google identity token, so this
 is real authentication; the site itself never sees or stores a password.
 
 Every route ends with a verified Firebase user, and `index.html` sends you to
@@ -99,8 +99,6 @@ Every route ends with a verified Firebase user, and `index.html` sends you to
 3. **Authentication → Sign-in method**, enable:
    - **Email/Password** — the form on the page
    - **Google** — one toggle, no extra keys needed
-   - **Apple** — needs an Apple Developer account: a Services ID with "Sign in
-     with Apple" enabled, plus your domain and return URL registered with Apple
    - **Anonymous** — this is what "Continue as guest" uses
 4. **Authentication → Settings → Authorised domains**, add every host the site
    runs on — `localhost`, your `*.netlify.app` domain and `yourname.github.io`.
@@ -203,7 +201,7 @@ it is not linked to a real account later.
 
 `auth.js` is the only file that touches Firebase. It exposes a small surface —
 `initAuth`, `waitForSession`, `signInGuest`, `signInWithEmail`, `signUpWithEmail`,
-`signInWithGoogle`, `signInWithApple`, `resetPassword`, `signOutUser`,
+`signInWithGoogle`, `resetPassword`, `signOutUser`,
 `setPersistence`, `friendlyError` — so the pages never import the SDK directly.
 
 The SDK is pulled from Google's CDN at runtime (`firebase-config.js` holds the
@@ -211,7 +209,7 @@ version), which is what keeps this a no-build-step site. That means the sign-in
 page needs a network connection the first time it loads.
 
 `setAuthBackend()` replaces the SDK with a fake, which is how the test suite runs
-every flow — Google popup, Apple popup, wrong password, password reset — without
+every flow — Google popup, wrong password, password reset — without
 a live Firebase project.
 
 ## How it works

@@ -9,7 +9,7 @@ import {
   isConfigured, sessionFromUser, dataKeyFor, initAuth, setAuthBackend,
   waitForSession, getSession, isReady, authError,
   signInGuest, signInWithEmail, signUpWithEmail, signInWithGoogle,
-  signInWithApple, resetPassword, signOutUser, setPersistence,
+  resetPassword, signOutUser, setPersistence,
   onSessionChange, friendlyError
 } from '../auth.js';
 
@@ -62,7 +62,7 @@ function fakeFirebase(initialUser = null) {
         uid: `u_${provider.__kind}`,
         email: `${provider.__kind}@example.com`,
         displayName: provider.__kind === 'google' ? 'Asha G' : 'Asha A',
-        providerData: [{ providerId: provider.__kind === 'google' ? 'google.com' : 'apple.com' }]
+        providerData: [{ providerId: 'google.com' }]
       };
       emit();
       return { user };
@@ -78,8 +78,7 @@ function fakeFirebase(initialUser = null) {
     setPersistence: async (remember) => { calls.push(['persistence', remember]); },
 
     providers: {
-      google: () => ({ __kind: 'google' }),
-      apple: () => ({ __kind: 'apple' })
+      google: () => ({ __kind: 'google' })
     },
 
     // test hooks
@@ -268,13 +267,11 @@ await check('a short password is refused by the provider', async () => {
   return msg;
 });
 
-await check('Google and Apple open their providers', async () => {
+await check('Google opens its provider', async () => {
   const g = await signInWithGoogle();
   assert(g.provider === 'google.com', `google provider ${g.provider}`);
   assert(g.name === 'Asha G', 'google display name missing');
-  const a = await signInWithApple();
-  assert(a.provider === 'apple.com', `apple provider ${a.provider}`);
-  return `${g.provider}, ${a.provider}`;
+  return g.provider;
 });
 
 await check('a password reset is sent to the address typed', async () => {

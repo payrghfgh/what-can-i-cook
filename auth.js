@@ -1,7 +1,7 @@
 // What Can I Cook — authentication, backed by Firebase Authentication.
 //
 // Firebase does the parts a static site cannot do on its own: it checks
-// passwords server-side, verifies Google and Apple identity tokens, and issues
+// passwords server-side, verifies the Google identity token, and issues
 // the session. This module is the thin seam between that SDK and the rest of the
 // app, so `app.js` and `login.js` never touch Firebase directly.
 //
@@ -106,8 +106,7 @@ async function loadFirebase(config) {
       remember ? authModule.browserLocalPersistence : authModule.browserSessionPersistence
     ),
     providers: {
-      google: () => new authModule.GoogleAuthProvider(),
-      apple: () => new authModule.OAuthProvider('apple.com')
+      google: () => new authModule.GoogleAuthProvider()
     }
   };
 }
@@ -244,12 +243,6 @@ export async function signUpWithEmail(email, password, name) {
 export async function signInWithGoogle() {
   const b = requireBackend();
   const result = await b.signInWithPopup(b.providers.google());
-  return sessionFromUser(result && result.user);
-}
-
-export async function signInWithApple() {
-  const b = requireBackend();
-  const result = await b.signInWithPopup(b.providers.apple());
   return sessionFromUser(result && result.user);
 }
 

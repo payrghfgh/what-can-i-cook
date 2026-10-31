@@ -25,7 +25,6 @@
 //   4. Authentication → Sign-in method → enable:
 //        · Email/Password
 //        · Google
-//        · Apple            (needs an Apple Developer account)
 //        · Anonymous        (this is what "Continue as guest" uses)
 //   5. Authentication → Settings → Authorised domains → add every host this
 //      site runs on, e.g.

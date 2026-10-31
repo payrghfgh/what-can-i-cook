@@ -427,12 +427,11 @@ check('every element id login.js reaches for exists in login.html', () => {
   return `${wanted.size} ids checked`;
 });
 
-check('the sign-in page offers guest, email, Google and Apple', () => {
+check('the sign-in page offers guest, email and Google', () => {
   const html = fs.readFileSync(path.join(root, 'login.html'), 'utf8');
   assert(/id="guest-btn"/.test(html), 'no guest button');
   assert(/id="email-form"/.test(html) && /type="password"/.test(html), 'no email/password form');
   assert(/id="google-btn"/.test(html), 'no Google button');
-  assert(/id="apple-btn"/.test(html), 'no Apple button');
   assert(/id="auth-remember"/.test(html), 'no remember-me control');
   assert(/id="reset-btn"/.test(html), 'no password reset');
   assert(/Firebase Authentication/.test(html), 'the page does not say who verifies sign-in');
@@ -475,7 +474,7 @@ check('auth.js delegates verification to Firebase and loads the SDK lazily', () 
   assert(/gstatic\.com\/firebasejs/.test(src), 'the Firebase SDK is not loaded from the CDN');
   assert(/initializeApp/.test(src) && /getAuth/.test(src), 'Firebase is not initialised');
   assert(/onAuthStateChanged/.test(src), 'auth state is not observed');
-  assert(/GoogleAuthProvider/.test(src) && /apple\.com/.test(src), 'the providers are not wired');
+  assert(/GoogleAuthProvider/.test(src), 'the Google provider is not wired');
   assert(/setAuthBackend/.test(src), 'no seam for testing');
   assert(!/pbkdf2/i.test(src), 'the old local password hashing is still here');
   return 'Firebase SDK, providers and the test seam';

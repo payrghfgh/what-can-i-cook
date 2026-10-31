@@ -1,12 +1,12 @@
 // Sign-in page wiring. The rules live in auth.js; this file only touches the DOM.
-// Firebase is the identity provider — Google, Apple, email/password and guest
+// Firebase is the identity provider — Google, email/password and guest
 // all resolve to a verified Firebase user.
 
 import { getFirebaseConfig } from './firebase-runtime.js';
 import {
   initAuth, isConfigured, waitForSession, onSessionChange,
   signInGuest, signInWithEmail, signUpWithEmail, signInWithGoogle,
-  signInWithApple, resetPassword, setPersistence, friendlyError
+  resetPassword, setPersistence, friendlyError
 } from './auth.js';
 
 const HOME = 'index.html';
@@ -35,7 +35,7 @@ function rememberWanted() {
 
 function setBusy(next) {
   busy = next;
-  for (const el of $$('#email-submit, #guest-btn, #apple-btn, #google-slot button, #reset-btn')) {
+  for (const el of $$('#email-submit, #guest-btn, #google-btn, #reset-btn')) {
     if (el) el.disabled = next;
   }
 }
@@ -106,7 +106,7 @@ function submitEmail(event) {
 }
 
 /* ------------------------------------------------------------------ *
- * guest, Google, Apple, password reset
+ * guest, Google, password reset
  * ------------------------------------------------------------------ */
 
 function guestIn() {
@@ -118,10 +118,6 @@ function guestIn() {
 
 function googleIn() {
   attempt('Opening Google', () => signInWithGoogle());
-}
-
-function appleIn() {
-  attempt('Opening Apple', () => signInWithApple());
 }
 
 function resetPasswordFlow() {
@@ -165,7 +161,6 @@ async function boot() {
   }
   $('#email-form').addEventListener('submit', submitEmail);
   $('#guest-btn').addEventListener('click', guestIn);
-  $('#apple-btn').addEventListener('click', appleIn);
   $('#reset-btn').addEventListener('click', resetPasswordFlow);
 
   if (!isConfigured(getFirebaseConfig())) {
@@ -173,11 +168,10 @@ async function boot() {
     return;
   }
 
-  // Google and Apple buttons are real here — Firebase opens the provider popup.
+  // the Google button is real here — Firebase opens the provider popup
   $('#google-btn').addEventListener('click', googleIn);
-  $('#apple-btn').disabled = false;
   const note = $('#provider-note');
-  if (note) note.textContent = 'Google and Apple sign-in open in a secure popup.';
+  if (note) note.textContent = 'Google sign-in opens in a secure popup.';
 
   await initAuth(getFirebaseConfig());
   const session = await waitForSession();
