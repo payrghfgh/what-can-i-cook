@@ -5,6 +5,17 @@
 // a secret — never add a service-account key or an admin SDK credential to this
 // file, because anything in a static site is readable by anyone.
 //
+// Two ways to fill this in:
+//
+//   A. Paste the values in by hand (below), and commit them. Fine, and simplest.
+//   B. Leave it empty and let the build fill it from environment variables:
+//        npm run config        # locally, from a .env file or your shell
+//      On Netlify the same script runs as the build command, reading the
+//      FIREBASE_* variables set in the dashboard. That keeps project ids out of
+//      git and lets dev and production point at different Firebase projects.
+//      The generated file is still served to browsers — env vars tidy the repo,
+//      they do not hide anything.
+//
 // Where to get them:
 //   1. console.firebase.google.com → create (or open) a project
 //   2. Project settings → General → Your apps → Web app (</>)
@@ -22,9 +33,10 @@
 //        your-site.netlify.app
 //        yourname.github.io
 //      Sign-in fails with auth/unauthorized-domain until a host is listed.
+//   6. Firestore Database → Create database → Rules → paste firestore.rules
 //
-// Leave the fields empty and the site runs in "not configured" mode: the app
-// says so plainly instead of failing silently.
+// With these fields empty the site runs as a single local profile and says so,
+// rather than failing silently.
 
 export const FIREBASE_CONFIG = {
   apiKey: '',
@@ -34,20 +46,3 @@ export const FIREBASE_CONFIG = {
   messagingSenderId: '',
   appId: ''
 };
-
-/** Bump this if you need a newer Firebase JS SDK. */
-export const FIREBASE_SDK_VERSION = '10.12.2';
-
-/**
- * The config the app actually uses.
- *
- * The committed object above wins by default. If something sets
- * `globalThis.__FIREBASE_CONFIG__` before the scripts run, that is used instead —
- * handy for injecting keys at deploy time, or for tests that must not talk to a
- * real project.
- */
-export function getFirebaseConfig() {
-  const override = globalThis.__FIREBASE_CONFIG__;
-  if (override && override.apiKey && override.projectId) return override;
-  return FIREBASE_CONFIG;
-}

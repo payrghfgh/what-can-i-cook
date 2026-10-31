@@ -13,7 +13,7 @@
 // Like auth.js, the network layer is injectable (`setStoreBackend`) so the tests
 // can exercise the sync rules with no project and no network.
 
-import { FIREBASE_SDK_VERSION, getFirebaseConfig } from './firebase-config.js';
+import { FIREBASE_SDK_VERSION, getFirebaseConfig } from './firebase-runtime.js';
 
 const SDK_BASE = `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/`;
 const COLLECTION = 'users';

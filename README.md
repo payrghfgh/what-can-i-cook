@@ -40,8 +40,8 @@ npm run serve      # same thing, python http.server on :8000
 npm test           # node tests/run.mjs && node tests/auth.mjs
 ```
 
-38 checks on the recipe engine and the pages, 19 on sign-in and 20 on Firestore
-sync. Between them
+38 checks on the recipe engine and the pages, 19 on sign-in, 20 on Firestore sync
+and 10 on the config generator. Between them
 they cover alias matching, the scoring formula, the four diet filters, the hard
 `avoid` filter, the rounding rules for grams / spoons / pieces / pinches, the egg
 formatting rules, the "nothing matches" fallback, course filtering, the three
@@ -67,14 +67,15 @@ will refuse to run there.
 `main` from the repo root, with `.nojekyll` so Pages serves the files verbatim
 rather than running them through Jekyll. Push to `main` and it redeploys.
 
-There are **no environment variables** to set on either host — the Firebase
-config lives in `firebase-config.js` as a committed file, because it is public
-configuration rather than a secret. `.env.example` is present only to make that
-explicit.
+**Environment variables** are optional but supported: set the six `FIREBASE_*`
+names on Netlify and the build writes `firebase-config.js` from them. With none
+set, the committed file is used as-is. See
+[Using environment variables](#using-environment-variables).
 
-If you would rather not commit the config, set `globalThis.__FIREBASE_CONFIG__`
-before the scripts load (for example in a small inline script in `login.html` and
-`index.html`); `getFirebaseConfig()` prefers it over the file.
+If you would rather not commit the config at all, you can also set
+`globalThis.__FIREBASE_CONFIG__` before the scripts load (for example in a small
+inline script in `login.html` and `index.html`); `getFirebaseConfig()` prefers it
+over the file.
 
 ## Sign-in
 
@@ -89,8 +90,10 @@ Every route ends with a verified Firebase user, and `index.html` sends you to
 ### Setting it up (about five minutes)
 
 1. Create a project at [console.firebase.google.com](https://console.firebase.google.com).
-2. **Project settings → General → Your apps → Web (`</>`)** and copy the
-   `firebaseConfig` object into `firebase-config.js`. Those values are public
+2. **Project settings → General → Your apps → Web (`</>`)** and get the
+   `firebaseConfig` object. Put the six values in `firebase-config.js` by hand,
+   or set them as environment variables and let the build write that file (see
+   [Using environment variables](#using-environment-variables)). They are public
    identifiers, not secrets — it is normal for them to ship in the page. Never
    put a service-account key there.
 3. **Authentication → Sign-in method**, enable:
@@ -111,6 +114,45 @@ Every route ends with a verified Firebase user, and `index.html` sends you to
 Until step 2 is done the site runs in "not configured" mode: the sign-in page
 says so instead of failing silently, and `index.html` stops at a card telling you
 the same thing.
+
+### Using environment variables
+
+The Firebase web config is public — whatever you put in it is served to the
+browser. Environment variables are still worth using, because they keep project
+ids out of git and let development and production point at different Firebase
+projects. They do not make anything secret.
+
+Set these six names, then run `npm run config`:
+
+```
+FIREBASE_API_KEY
+FIREBASE_AUTH_DOMAIN
+FIREBASE_PROJECT_ID
+FIREBASE_STORAGE_BUCKET
+FIREBASE_MESSAGING_SENDER_ID
+FIREBASE_APP_ID
+```
+
+Locally, copy `.env.example` to `.env` and fill it in — `npm run config` reads
+your shell environment, so export the variables (or use a tool that loads `.env`)
+before running it. On Netlify, set the same six under **Site configuration →
+Environment variables**; the build command in `netlify.toml` already runs
+`node scripts/generate-config.mjs`, which writes `firebase-config.js` inside the
+build container.
+
+The generator is deliberately fussy: set all six and it writes the file, set none
+and it leaves the committed placeholder untouched, set some and it exits 1 naming
+exactly what is missing. That last case is the one that matters — a half-filled
+config fails the build instead of shipping a site that silently can't sign anyone
+in.
+
+**A static site cannot read environment variables at runtime.** There is no
+server; Netlify exposes them to the build, not to the browser. That is why a
+build step exists at all, and why the values still end up in the served
+JavaScript.
+
+If you host on GitHub Pages instead, there is no build step — Pages serves the
+repo as-is — so commit the values in `firebase-config.js` and skip this section.
 
 ### What is remembered, and where
 
@@ -284,6 +326,8 @@ auth.js         Firebase seam: sessions, providers, readable errors
 store.js        Firestore seam: local cache, debounced writes, sync status
 firestore.rules security rules — owner-only access, paste into the console
 firebase-config.js  Firebase web config — empty by default, public values only
+firebase-runtime.js SDK version, config lookup, the configured check
+scripts/generate-config.mjs  writes firebase-config.js from env vars at build time
 logic.js        vocabulary, canonicalising, filters, scoring, scaling (pure)
 recipes.json    166 recipes
 tests/run.mjs   the recipe and page suite

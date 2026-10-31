@@ -2,7 +2,7 @@
 // Firebase is the identity provider — Google, Apple, email/password and guest
 // all resolve to a verified Firebase user.
 
-import { getFirebaseConfig } from './firebase-config.js';
+import { getFirebaseConfig } from './firebase-runtime.js';
 import {
   initAuth, isConfigured, waitForSession, onSessionChange,
   signInGuest, signInWithEmail, signUpWithEmail, signInWithGoogle,

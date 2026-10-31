@@ -141,7 +141,7 @@ await check('the committed config ships empty', async () => {
 });
 
 await check('a runtime override can supply the config instead', async () => {
-  const { getFirebaseConfig } = await import('../firebase-config.js');
+  const { getFirebaseConfig } = await import('../firebase-runtime.js');
   globalThis.__FIREBASE_CONFIG__ = { apiKey: 'test-key', projectId: 'test-project' };
   const cfg = getFirebaseConfig();
   assert(cfg.apiKey === 'test-key', 'override ignored');

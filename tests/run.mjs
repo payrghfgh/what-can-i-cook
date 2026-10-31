@@ -409,7 +409,8 @@ check('index.html loads the stylesheet, the module and the fonts it names', () =
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   assert(html.includes('href="styles.css"'), 'stylesheet not linked');
   assert(html.includes('type="module" src="app.js"'), 'app.js not loaded as a module');
-  for (const f of ['styles.css', 'app.js', 'logic.js', 'recipes.json', 'auth.js', 'login.html', 'login.js', 'firebase-config.js', 'store.js', 'firestore.rules']) {
+  for (const f of ['styles.css', 'app.js', 'logic.js', 'recipes.json', 'auth.js', 'login.html', 'login.js', 'firebase-config.js', 'firebase-runtime.js',
+           'store.js', 'firestore.rules', 'scripts/generate-config.mjs']) {
     assert(fs.existsSync(path.join(root, f)), `${f} missing from the repo root`);
   }
   assert(!/Inter|Roboto/.test(html.split('<link')[0]), 'a banned typeface is referenced');

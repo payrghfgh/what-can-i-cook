@@ -8,7 +8,7 @@ import {
   timeLabel, costLabel, costWords
 } from './logic.js';
 import { initAuth, waitForSession, isConfigured, signOutUser, dataKeyFor } from './auth.js';
-import { getFirebaseConfig } from './firebase-config.js';
+import { getFirebaseConfig } from './firebase-runtime.js';
 import { initStore, loadProfile, saveProfile, flush, onSyncStatus, resetStore } from './store.js';
 
 const PAGE_SIZE = 8;

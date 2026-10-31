@@ -1,6 +1,9 @@
 # Netlify configuration.
-# There is no build step: the repo root is the site.
+# The only build step is the config generator; the repo root is the site.
 [build]
+  # Fills firebase-config.js from the FIREBASE_* environment variables set in the
+  # Netlify dashboard. With none set it leaves the committed file alone.
+  command = "node scripts/generate-config.mjs"
   publish = "."
 
 # Serve recipes.json fresh so an edit to the recipe box shows up immediately

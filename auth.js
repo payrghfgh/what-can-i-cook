@@ -10,7 +10,7 @@
 // (`setAuthBackend`) so the test suite can exercise every flow without a live
 // Firebase project.
 
-import { FIREBASE_CONFIG, FIREBASE_SDK_VERSION, getFirebaseConfig } from './firebase-config.js';
+import { FIREBASE_SDK_VERSION, getFirebaseConfig, isConfigured } from './firebase-runtime.js';
 
 const SDK_BASE = `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/`;
 
@@ -50,10 +50,8 @@ function notify() {
  * config
  * ------------------------------------------------------------------ */
 
-/** A Firebase web config needs at least an apiKey and a projectId. */
-export function isConfigured(config = getFirebaseConfig()) {
-  return Boolean(config && config.apiKey && config.projectId);
-}
+// re-exported so pages and tests can keep importing it from auth.js
+export { isConfigured };
 
 /* ------------------------------------------------------------------ *
  * session shape

@@ -5,9 +5,10 @@
   "description": "A static recipe suggester: tell it what's in your kitchen, it ranks what you can cook.",
   "type": "module",
   "scripts": {
-    "test": "node tests/run.mjs && node tests/auth.mjs && node tests/store.mjs",
+    "test": "node tests/run.mjs && node tests/auth.mjs && node tests/store.mjs && node tests/config.mjs",
     "test:dom": "node smoke.mjs && node smoke-auth.mjs",
-    "serve": "python3 -m http.server 8000"
+    "serve": "python3 -m http.server 8000",
+    "config": "node scripts/generate-config.mjs"
   },
   "keywords": [
     "recipes",
