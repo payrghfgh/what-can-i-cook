@@ -67,6 +67,13 @@ will refuse to run there.
 `main` from the repo root, with `.nojekyll` so Pages serves the files verbatim
 rather than running them through Jekyll. Push to `main` and it redeploys.
 
+**The "Powered by Netlify" badge** on the live site is not part of this project.
+Netlify injects it at the edge on Free-plan projects created after 19 August 2026,
+inside an isolated frame — which is why no CSS here can hide it. To remove it:
+**Project configuration → General → Powered by Netlify badge**, switch it off and
+save. It takes effect on the next request; no redeploy needed. Visitors can also
+dismiss it for themselves from the badge's own card.
+
 **Environment variables** are optional but supported: set the six `FIREBASE_*`
 names on Netlify and the build writes `firebase-config.js` from them. With none
 set, the committed file is used as-is. See
