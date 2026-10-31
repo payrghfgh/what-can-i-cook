@@ -146,6 +146,8 @@ exactly what is missing. That last case is the one that matters — a half-fille
 config fails the build instead of shipping a site that silently can't sign anyone
 in.
 
+Paste the field names instead of the values — `apiKey: FIREBASE_API_KEY`, `projectId: PROJID` — and the site refuses to start rather than failing inside Firebase: `configProblem()` in `firebase-runtime.js` checks that the apiKey looks like a key and the projectId like a project id, and the page says which one is wrong.
+
 **A static site cannot read environment variables at runtime.** There is no
 server; Netlify exposes them to the build, not to the browser. That is why a
 build step exists at all, and why the values still end up in the served

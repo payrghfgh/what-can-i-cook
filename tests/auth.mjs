@@ -128,8 +128,27 @@ await check('an empty config is reported as not configured', () => {
   assert(!isConfigured({}), 'empty object considered configured');
   assert(!isConfigured({ apiKey: 'x' }), 'apiKey alone considered configured');
   assert(!isConfigured(null), 'null considered configured');
-  assert(isConfigured({ apiKey: 'x', projectId: 'y' }), 'a real config was rejected');
-  return 'needs apiKey and projectId';
+  assert(isConfigured({ apiKey: 'AIzaSyRealLookingKey0123456789abc', projectId: 'my-project-1234', authDomain: 'my-project.firebaseapp.com' }),
+    'a real config was rejected');
+  return 'needs a real-looking apiKey and projectId';
+});
+
+await check('a config full of placeholders is refused, not accepted', async () => {
+  const { configProblem } = await import('../firebase-runtime.js');
+  const template = {
+    apiKey: 'FIREBASE_API_KEY', authDomain: 'DOMAIN', projectId: 'PROJID',
+    storageBucket: 'STORAGEBUCKET', messagingSenderId: 'SENDERID', appId: 'APPID'
+  };
+  assert(!isConfigured(template), 'a placeholder config was treated as real');
+  assert(/apiKey/.test(configProblem(template)), 'apiKey problem not named');
+
+  const halfDone = { apiKey: 'AIzaSyRealLookingKey0123456789abc', projectId: 'PROJID' };
+  assert(!isConfigured(halfDone), 'a placeholder projectId was accepted');
+  assert(/projectId/.test(configProblem(halfDone)), 'projectId problem not named');
+
+  const badDomain = { apiKey: 'AIzaSyRealLookingKey0123456789abc', projectId: 'my-project', authDomain: 'nope' };
+  assert(/authDomain/.test(configProblem(badDomain)), 'a bad authDomain slipped through');
+  return 'field names are not mistaken for values';
 });
 
 await check('the committed config ships empty', async () => {

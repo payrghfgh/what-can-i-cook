@@ -9,7 +9,7 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 import { setAuthBackend } from './auth.js';
 
 // pretend the Firebase project is configured, so the app does not stop at the gate
-globalThis.__FIREBASE_CONFIG__ = { apiKey: 'test-key', projectId: 'test-project' };
+globalThis.__FIREBASE_CONFIG__ = { apiKey: 'AIzaSyDummyKeyForTests0123456789abcdef', projectId: 'test-project', authDomain: 'test.firebaseapp.com' };
 
 const root = import.meta.dirname || path.dirname(new URL(import.meta.url).pathname);
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');

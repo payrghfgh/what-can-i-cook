@@ -28,7 +28,7 @@ async function check(name, fn) {
 function assert(cond, msg) { if (!cond) throw new Error(msg); }
 
 const FULL_ENV = {
-  FIREBASE_API_KEY: 'AIzaSyExampleKey',
+  FIREBASE_API_KEY: 'AIzaSyExampleKeyForTestingOnly1234567',
   FIREBASE_AUTH_DOMAIN: 'what-can-i-cook.firebaseapp.com',
   FIREBASE_PROJECT_ID: 'what-can-i-cook',
   FIREBASE_STORAGE_BUCKET: 'what-can-i-cook.appspot.com',
@@ -113,7 +113,7 @@ await check('with a full environment it writes the config', async () => {
     const out = runGenerator(FULL_ENV);
     const written = fs.readFileSync(configPath, 'utf8');
     assert(written.includes('what-can-i-cook'), 'project id not written');
-    assert(written.includes('AIzaSyExampleKey'), 'api key not written');
+    assert(written.includes('AIzaSyExampleKeyForTestingOnly1234567'), 'api key not written');
     assert(/Wrote firebase-config\.js/.test(out), `unexpected output: ${out.trim()}`);
     const mod = await import('file://' + configPath + '?t=' + Date.now());
     assert(mod.FIREBASE_CONFIG.authDomain === 'what-can-i-cook.firebaseapp.com', 'generated module is wrong');

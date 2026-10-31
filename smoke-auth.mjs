@@ -14,7 +14,7 @@ const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 const RECIPES = read('recipes.json');
 
 // pretend the project is configured, so the pages wire themselves up
-globalThis.__FIREBASE_CONFIG__ = { apiKey: 'test-key', projectId: 'test-project', authDomain: 'test.firebaseapp.com' };
+globalThis.__FIREBASE_CONFIG__ = { apiKey: 'AIzaSyDummyKeyForTests0123456789abcdef', projectId: 'test-project', authDomain: 'test.firebaseapp.com' };
 
 const { setAuthBackend } = await import('./auth.js');
 const { setStoreBackend } = await import('./store.js');
