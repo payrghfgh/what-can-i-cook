@@ -148,6 +148,18 @@ in.
 
 Paste the field names instead of the values — `apiKey: FIREBASE_API_KEY`, `projectId: PROJID` — and the site refuses to start rather than failing inside Firebase: `configProblem()` in `firebase-runtime.js` checks that the apiKey looks like a key and the projectId like a project id, and the page says which one is wrong.
 
+On Netlify, do **not** tick *Contains secret values* for these six. Netlify's
+secret scanning fails the build when a flagged secret turns up in the build
+output — and this build deliberately writes these values into the published
+`firebase-config.js`, so flagging them would block every deploy. Flagged values
+are also write-only and the flag cannot be undone, so you would lose the ability
+to check them for typos. Leave them as ordinary variables; the secret toggle is
+for things that must never reach a browser.
+
+(Netlify's smart detection still scans for real secrets automatically, so if a
+service-account key ever lands in the repo, the build fails before it can be
+published.)
+
 **A static site cannot read environment variables at runtime.** There is no
 server; Netlify exposes them to the build, not to the browser. That is why a
 build step exists at all, and why the values still end up in the served
