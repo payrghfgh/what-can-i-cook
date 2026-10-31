@@ -9,8 +9,13 @@ No backend, no API keys, no build step. Plain HTML, CSS and JavaScript plus
 `recipes.json`, deployable anywhere that serves files.
 
 Sign-in is real: Google, Apple, email/password and guest, all through Firebase
-Authentication. Your pantry and saved recipes stay in the browser, filed per
-account. See [Sign-in](#sign-in) below.
+Authentication, and your pantry, saved recipes and shopping list are stored in
+Firestore under your account so they follow you between devices. See
+[Sign-in](#sign-in) below.
+
+With no Firebase keys the site still works — it runs as a single local profile
+with a banner saying sign-in is off, so nothing is walled off while you set the
+project up.
 
 ## Run it locally
 
@@ -35,7 +40,8 @@ npm run serve      # same thing, python http.server on :8000
 npm test           # node tests/run.mjs && node tests/auth.mjs
 ```
 
-36 checks on the recipe engine and the pages, plus 19 on sign-in. Between them
+38 checks on the recipe engine and the pages, 19 on sign-in and 20 on Firestore
+sync. Between them
 they cover alias matching, the scoring formula, the four diet filters, the hard
 `avoid` filter, the rounding rules for grams / spoons / pieces / pinches, the egg
 formatting rules, the "nothing matches" fallback, course filtering, the three
@@ -96,26 +102,46 @@ Every route ends with a verified Firebase user, and `index.html` sends you to
 4. **Authentication → Settings → Authorised domains**, add every host the site
    runs on — `localhost`, your `*.netlify.app` domain and `yourname.github.io`.
    Sign-in fails with `auth/unauthorized-domain` until a host is listed.
+5. **Firestore Database → Create database**, then open the **Rules** tab, paste
+   in `firestore.rules` from this repo and publish. Until you do, saving fails
+   quietly and the app falls back to the local copy (the sync chip says
+   "Local only"). Do **not** leave it in test mode — that opens the database to
+   anyone for 30 days.
 
 Until step 2 is done the site runs in "not configured" mode: the sign-in page
 says so instead of failing silently, and `index.html` stops at a card telling you
 the same thing.
 
-### What is remembered
+### What is remembered, and where
 
 Firebase owns the session. **Remember me** (on by default) asks Firebase for
 local persistence, so the session survives a browser restart; untick it and the
 session ends when the tab closes.
 
-Your pantry, saved recipes, filters and shopping list stay in this browser, filed
-under your Firebase uid (`what-can-i-cook:v2:<uid>`). That is why two accounts on
-one device don't see each other's ingredients — and why signing in on a different
-device starts empty. Moving that data to Firestore, keyed by `uid`, is the next
-step if you want it to follow people around; `dataKeyFor()` in `auth.js` is the
-only place that decides where it lives.
+Your pantry, filters, saved recipes and shopping list are kept in two places:
 
-Guest mode is an anonymous Firebase user: it persists on the device but cannot be
-recovered if browser data is cleared, and it is not linked to an account later.
+- **localStorage** — the instant copy. It is what paints on the first frame and
+  what keeps the app working with no network. Keyed per account
+  (`what-can-i-cook:v2:<uid>`).
+- **Firestore** — the durable copy, one document at `users/{uid}`. Read once when
+  the page loads, written back (debounced by 700 ms) whenever something changes.
+
+So signing in on another device pulls the same kitchen down. The sync chip in the
+header shows what is happening: *Saving…*, *Saved*, or *Local only* when the
+database could not be reached. A failed write never loses data — the payload
+stays queued and the next change retries it.
+
+First sign-in on a fresh account with a pantry already on the device pushes that
+local pantry up, so nothing is lost in the move.
+
+Two things are deliberately not built yet: live cross-device updates (the second
+device sees changes on reload, not instantly) and merging edits made offline on
+two devices at once. Both are straightforward to add with `onSnapshot` and a
+field-level merge; the sync is pull-on-load, push-on-change today.
+
+Guest mode is an anonymous Firebase user: it gets its own `users/{uid}` document
+and works across reloads, but cannot be recovered if browser data is cleared, and
+it is not linked to a real account later.
 
 ### How the code is arranged
 
@@ -255,6 +281,8 @@ styles.css      warm kitchen-notebook styling, mobile first, dark mode aware
 app.js          app wiring, live re-render, per-profile storage
 login.js        sign-in page wiring for all four routes
 auth.js         Firebase seam: sessions, providers, readable errors
+store.js        Firestore seam: local cache, debounced writes, sync status
+firestore.rules security rules — owner-only access, paste into the console
 firebase-config.js  Firebase web config — empty by default, public values only
 logic.js        vocabulary, canonicalising, filters, scoring, scaling (pure)
 recipes.json    166 recipes

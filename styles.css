@@ -1052,3 +1052,35 @@ input[type="search"]:focus,
 
 .provider-mark.provider-google { border-color: #4285f4; background: #4285f4; opacity: .85; }
 .provider-mark.provider-apple { border-color: var(--ink); background: var(--ink); opacity: .85; }
+
+/* ---------------------------------------------------------------- sync status */
+
+.sync {
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .02em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.sync:empty { display: none; }
+.sync[data-state="saving"] { color: var(--ink-faint); }
+.sync[data-state="synced"] { color: var(--have); }
+.sync[data-state="offline"] { color: var(--accent); }
+.sync[data-state="error"] { color: var(--accent-deep); }
+
+/* ---------------------------------------------------------------- local-only banner */
+
+.local-banner {
+  max-width: 1240px;
+  margin: .75rem auto 0;
+  padding: .55rem .8rem;
+  border-radius: var(--radius);
+  background: var(--paper-3);
+  border: 1px dashed var(--line-strong);
+  font-size: .78rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.local-banner[hidden] { display: none; }
+.local-banner strong { color: var(--ink); }
+.local-banner code { font-family: var(--mono); font-size: .74rem; color: var(--ink); }

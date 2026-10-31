@@ -409,7 +409,7 @@ check('index.html loads the stylesheet, the module and the fonts it names', () =
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   assert(html.includes('href="styles.css"'), 'stylesheet not linked');
   assert(html.includes('type="module" src="app.js"'), 'app.js not loaded as a module');
-  for (const f of ['styles.css', 'app.js', 'logic.js', 'recipes.json', 'auth.js', 'login.html', 'login.js', 'firebase-config.js']) {
+  for (const f of ['styles.css', 'app.js', 'logic.js', 'recipes.json', 'auth.js', 'login.html', 'login.js', 'firebase-config.js', 'store.js', 'firestore.rules']) {
     assert(fs.existsSync(path.join(root, f)), `${f} missing from the repo root`);
   }
   assert(!/Inter|Roboto/.test(html.split('<link')[0]), 'a banned typeface is referenced');
@@ -446,6 +446,27 @@ check('firebase-config.js ships with empty placeholders and no server credential
   }
   assert(!/private_key|serviceAccount|client_secret/i.test(src), 'a server credential is committed');
   return 'six empty fields';
+});
+
+check('the app runs without Firebase instead of walling itself off', () => {
+  const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert(/id="local-banner"/.test(html), 'no banner for local-only mode');
+  assert(/local-banner/.test(app), 'the app never reveals the banner');
+  assert(/isConfigured\(getFirebaseConfig\(\)\)/.test(app), 'the app does not check for configuration');
+  assert(/userId: 'local'/.test(app), 'no local profile fallback');
+  assert(/loadProfile\(session\.userId\)/.test(app), 'the app never reads the saved profile');
+  assert(/saveProfile\(session\.userId, payload\)/.test(app), 'the app never writes changes back');
+  return 'local mode, then gate + sync once configured';
+});
+
+check('store.js keeps a local copy before writing to the database', () => {
+  const src = fs.readFileSync(path.join(root, 'store.js'), 'utf8');
+  assert(/setDoc/.test(src) && /getDoc/.test(src), 'Firestore reads/writes are missing');
+  assert(/SAVE_DELAY_MS/.test(src), 'writes are not debounced');
+  assert(/setStoreBackend/.test(src), 'no seam for testing');
+  assert(/users/.test(src), 'no collection named');
+  return 'getDoc on load, debounced setDoc on change';
 });
 
 check('auth.js delegates verification to Firebase and loads the SDK lazily', () => {

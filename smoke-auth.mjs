@@ -17,6 +17,7 @@ const RECIPES = read('recipes.json');
 globalThis.__FIREBASE_CONFIG__ = { apiKey: 'test-key', projectId: 'test-project', authDomain: 'test.firebaseapp.com' };
 
 const { setAuthBackend } = await import('./auth.js');
+const { setStoreBackend } = await import('./store.js');
 
 let passed = 0;
 const failures = [];
@@ -253,6 +254,16 @@ await check('an existing session skips the sign-in page', async () => {
   return 'went straight through';
 });
 
+/** A fake Firestore: records writes so the sync path can be observed. */
+function fakeStore() {
+  const writes = [];
+  return {
+    read: async () => null,
+    write: async (uid, payload) => { writes.push({ uid, payload }); },
+    __writes: writes
+  };
+}
+
 /* ================================================================ the gate */
 
 console.log('\nThe app gate');
@@ -276,6 +287,8 @@ gate2.window.localStorage.setItem('what-can-i-cook:v2:u_asha', JSON.stringify({
   sort: 'match', favourites: [], shopping: []
 }));
 await setAuthBackend(fakeFirebase({ uid: 'u_asha', email: 'asha@example.com', displayName: 'Asha', providerData: [{ providerId: 'password' }] }));
+const store2 = fakeStore();
+setStoreBackend(store2);
 await import('./app.js?gate=2');
 await tick(150);
 
@@ -306,6 +319,17 @@ await check('the app still works normally once signed in', async () => {
   return 'pantry grows, recipes open';
 });
 
+await check('changes are pushed to the database under that uid', async () => {
+  const first = await waitFor(() => store2.__writes[0]);
+  assert(first.uid === 'u_asha', `wrote to ${first.uid}`);
+  assert(Array.isArray(first.payload.pantry), 'no pantry in the payload');
+  const label = await waitFor(() => {
+    const t = gate2.$('#sync-status').textContent;
+    return t === 'Saved' || t === 'Saving…' ? t : null;
+  }, 3000);
+  return `write to u_asha, sync chip "${label}"`;
+});
+
 await check("changes are filed under that account's own key", () => {
   const saved = JSON.parse(gate2.window.localStorage.getItem('what-can-i-cook:v2:u_asha'));
   assert(saved.pantry.length === 3, `saved ${saved.pantry.length} items`);
@@ -329,6 +353,29 @@ await check('signing out ends the session and returns to sign-in', async () => {
   gate3.$('#signout-btn').click();
   await waitFor(() => gate3.navAttempts.find((m) => /navigation/i.test(m)));
   return 'signed out';
+});
+
+/* ================================================================ no config */
+
+console.log('\nWithout a Firebase project');
+
+await check('the app still works, and says sign-in is off', async () => {
+  const saved = globalThis.__FIREBASE_CONFIG__;
+  delete globalThis.__FIREBASE_CONFIG__;
+
+  const page = openPage('index.html');
+  await import('./app.js?local=1');
+  await tick(200);
+
+  assert(page.$$('#results-body .card').length > 0, 'no cards in local mode');
+  assert(!page.$('#local-banner').hidden, 'the banner stayed hidden');
+  assert(/Sign-in is off/i.test(page.$('#local-banner').textContent), 'no explanation on the banner');
+  assert(page.$('#account-name').textContent === 'This device', `chip says ${page.$('#account-name').textContent}`);
+  assert(page.$('#signout-btn').hidden, 'a sign-out button with nothing to sign out of');
+  assert(page.navAttempts.length === 0, 'it redirected to sign-in anyway');
+
+  globalThis.__FIREBASE_CONFIG__ = saved;
+  return 'renders 8 cards, banner shown, no redirect';
 });
 
 console.log(`\n${passed} passed, ${failures.length} failed`);

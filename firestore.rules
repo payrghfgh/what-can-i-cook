@@ -1,0 +1,44 @@
+rules_version = '2';
+
+// Firestore security rules for What Can I Cook.
+//
+// Paste this into Firebase console → Firestore Database → Rules, then publish.
+// Until you do, the default rules deny everything and saving will fail quietly
+// (the app keeps working on its local copy and shows "Offline").
+//
+// The rule that matters: a document under /users is readable and writable only
+// by the signed-in user whose uid matches the document id. Client-side code can
+// be edited by anyone, so this file — not the app — is what actually protects
+// the data.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // One document per person: their pantry, filters, saved recipes, shopping list.
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create, update: if isOwner(uid) && looksLikeAProfile(request.resource.data);
+      allow delete: if isOwner(uid);
+    }
+
+    // Nothing else is reachable from the browser.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Cheap guards against a runaway client filling the document. Firestore caps
+    // a document at 1 MiB; these keep it far below that.
+    function looksLikeAProfile(data) {
+      return data.size() <= 40
+        && (!('pantry' in data)     || data.pantry.size() <= 300)
+        && (!('avoid' in data)      || data.avoid.size() <= 300)
+        && (!('shopping' in data)   || data.shopping.size() <= 300)
+        && (!('favourites' in data) || data.favourites.size() <= 500)
+        && (!('focus' in data)      || data.focus.size() <= 20);
+    }
+  }
+}

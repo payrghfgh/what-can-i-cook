@@ -30,10 +30,16 @@
     </button>
     <div class="account">
       <span class="account-name" id="account-name">Guest</span>
+      <span class="sync" id="sync-status" role="status" aria-live="polite"></span>
       <button type="button" class="linkish" id="signout-btn">Sign out</button>
     </div>
   </div>
 </header>
+
+<p class="local-banner" id="local-banner" hidden>
+  <strong>Sign-in is off.</strong> Your pantry is saved in this browser only. Add Firebase keys to
+  <code>firebase-config.js</code> to switch on accounts — the README has the steps.
+</p>
 
 <main class="app">
 

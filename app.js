@@ -9,6 +9,7 @@ import {
 } from './logic.js';
 import { initAuth, waitForSession, isConfigured, signOutUser, dataKeyFor } from './auth.js';
 import { getFirebaseConfig } from './firebase-config.js';
+import { initStore, loadProfile, saveProfile, flush, onSyncStatus, resetStore } from './store.js';
 
 const PAGE_SIZE = 8;
 const LEGACY_KEY = 'what-can-i-cook:v2';
@@ -60,25 +61,74 @@ const labelFor = (key) => (BY_KEY.get(key) || { label: key }).label;
 
 /* --------------------------------------------------------------- storage */
 
+/** The bit of state worth keeping — identical shape locally and in Firestore. */
+function serialiseState() {
+  return {
+    pantry: state.pantry,
+    avoid: state.avoid,
+    people: state.people,
+    focus: [...state.focus],
+    diet: state.diet,
+    maxTime: state.maxTime,
+    cuisine: state.cuisine,
+    course: state.course,
+    sort: state.sort,
+    favourites: [...state.favourites],
+    shopping: state.shopping
+  };
+}
+
 function save() {
+  const payload = serialiseState();
   try {
-    localStorage.setItem(storageKey(), JSON.stringify({
-      pantry: state.pantry,
-      avoid: state.avoid,
-      people: state.people,
-      focus: [...state.focus],
-      diet: state.diet,
-      maxTime: state.maxTime,
-      cuisine: state.cuisine,
-      course: state.course,
-      sort: state.sort,
-      favourites: [...state.favourites],
-      shopping: state.shopping,
-      pantryOpen: state.pantryOpen
-    }));
+    localStorage.setItem(storageKey(), JSON.stringify({ ...payload, pantryOpen: state.pantryOpen }));
   } catch (err) {
     /* private mode or full storage — the app still works, it just won't remember */
   }
+  // the durable copy follows the account; a failure here never blocks the UI
+  if (session) saveProfile(session.userId, payload);
+}
+
+/** Apply a profile that came back from Firestore. */
+function applyRemoteProfile(remote) {
+  if (!remote) return false;
+  state.pantry = canonicaliseAll(remote.pantry.map((p) => p.label || p.key));
+  state.avoid = canonicaliseAll(remote.avoid.map((p) => p.label || p.key));
+  state.shopping = canonicaliseAll(remote.shopping.map((p) => p.label || p.key));
+  state.favourites = new Set(remote.favourites);
+  state.people = remote.people;
+  state.focus = new Set(remote.focus.filter((f) => FOCUS_TAGS.some((t) => t.id === f)));
+  state.diet = remote.diet;
+  state.maxTime = remote.maxTime;
+  state.cuisine = remote.cuisine;
+  state.course = remote.course;
+  state.sort = remote.sort;
+  state.limit = PAGE_SIZE;
+  // keep the local cache in step so the next cold start is instant
+  try {
+    localStorage.setItem(storageKey(), JSON.stringify({ ...serialiseState(), pantryOpen: state.pantryOpen }));
+  } catch (err) { /* ignore */ }
+  return true;
+}
+
+const SYNC_LABELS = {
+  local: '',
+  saving: 'Saving…',
+  synced: 'Saved',
+  offline: 'Local only',
+  error: 'Not saved'
+};
+
+function paintSync(status) {
+  const el = $('#sync-status');
+  if (!el) return;
+  el.textContent = SYNC_LABELS[status] || '';
+  el.dataset.state = status;
+  el.title = status === 'offline'
+    ? 'Saved on this device. Your account copy could not be reached.'
+    : status === 'synced'
+      ? 'Saved to your account.'
+      : '';
 }
 
 function restore() {
@@ -757,37 +807,57 @@ function showCard(title, body, linkLabel) {
 }
 
 async function boot() {
-  // sign-in is the front door; without Firebase keys there is nothing to check
-  if (!isConfigured(getFirebaseConfig())) {
-    showCard(
-      'Sign-in is not configured',
-      'Add your Firebase project keys to firebase-config.js to switch it on. The README has the steps.',
-      'Back to sign-in'
-    );
-    return;
+  const configured = isConfigured(getFirebaseConfig());
+
+  if (!configured) {
+    // No Firebase keys yet. Rather than wall the site off, run it exactly as it
+    // did before accounts existed: one local profile on this device, and a
+    // banner that says so. The moment keys are added, the gate switches on.
+    session = { userId: 'local', name: 'This device', provider: 'local', anonymous: true };
+    const banner = $('#local-banner');
+    if (banner) banner.hidden = false;
+    const nameEl = $('#account-name');
+    if (nameEl) nameEl.textContent = 'This device';
+    const out = $('#signout-btn');
+    if (out) out.hidden = true;
+  } else {
+    await initAuth(getFirebaseConfig());
+    session = await waitForSession();
+
+    if (!session) {
+      showCard(
+        'Taking you to sign in…',
+        'Your pantry is kept per person, so we need to know who you are.',
+        'Continue to sign in'
+      );
+      window.location.replace('login.html');
+      return;
+    }
+
+    const nameEl = $('#account-name');
+    if (nameEl) nameEl.textContent = session.name || 'Guest';
+    $('#signout-btn').addEventListener('click', async () => {
+      await flush();
+      resetStore();
+      await signOutUser();
+      window.location.replace('login.html');
+    });
   }
 
-  await initAuth(getFirebaseConfig());
-  session = await waitForSession();
+  await initStore(getFirebaseConfig());
+  onSyncStatus(paintSync);
+  paintSync('local');
 
-  if (!session) {
-    showCard(
-      'Taking you to sign in…',
-      'Your pantry is kept per person, so we need to know who you are.',
-      'Continue to sign in'
-    );
-    window.location.replace('login.html');
-    return;
+  restore(); // the instant local copy, so something is on screen immediately
+
+  const remote = await loadProfile(session.userId);
+  if (remote && remote.updatedAt) {
+    applyRemoteProfile(remote);
+  } else {
+    // nothing in the database for this account yet — push what is on this device
+    saveProfile(session.userId, serialiseState());
   }
 
-  const nameEl = $('#account-name');
-  if (nameEl) nameEl.textContent = session.name || 'Guest';
-  $('#signout-btn').addEventListener('click', async () => {
-    await signOutUser();
-    window.location.replace('login.html');
-  });
-
-  restore();
   buildPantryGroups();
   buildFilterControls();
   syncPantryCheckboxes();
