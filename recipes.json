@@ -1,0 +1,3974 @@
+[
+  {
+    "id": "rajma",
+    "name": "Rajma",
+    "cuisine": "punjabi",
+    "diet": "vegan",
+    "minutes": 45,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "one-pot",
+      "budget",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "rajma",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Soak the rajma overnight, or in hot water for two hours if you are cooking today.",
+      "Pressure cook the rajma with the turmeric and a little salt until it presses soft between two fingers. Keep the cooking water.",
+      "Heat the oil and crackle the cumin. Add the onion and cook until it turns pale gold.",
+      "Add the ginger, garlic and tomatoes and cook down until the oil separates at the edges.",
+      "Stir in the red chilli powder and garam masala, then tip in the rajma with its water.",
+      "Simmer for fifteen minutes, mashing a few beans against the side of the pot to thicken the gravy.",
+      "Finish with the coriander and serve with rice."
+    ]
+  },
+  {
+    "id": "chole",
+    "name": "Chole",
+    "cuisine": "punjabi",
+    "diet": "vegan",
+    "minutes": 40,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "budget",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "chana",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "coriander powder",
+        "qty": 2,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Soak the chana overnight, then pressure cook with turmeric and salt until soft.",
+      "Brown the onion in oil over a medium flame — properly dark at the edges, not just translucent.",
+      "Add ginger, garlic and tomatoes and cook until the masala looks thick and glossy.",
+      "Stir in the coriander powder and garam masala, then add the chana with a cup of its water.",
+      "Simmer fifteen minutes, mashing a few chickpeas to thicken it.",
+      "Finish with coriander and a squeeze of lemon if you have one."
+    ]
+  },
+  {
+    "id": "dal-tadka",
+    "name": "Dal Tadka",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "budget",
+      "quick",
+      "one-pot"
+    ],
+    "ingredients": [
+      {
+        "item": "toor dal",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "asafoetida",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rinse the dal and boil it with turmeric and salt until it collapses — about fifteen minutes in a pressure cooker.",
+      "Whisk the cooked dal so it turns creamy, adding hot water until it pours like thick cream.",
+      "Heat the oil in a small pan. Add cumin, asafoetida and the onion and fry until golden.",
+      "Add the garlic and tomato and cook until the tomato breaks down.",
+      "Pour the tadka over the dal, add the red chilli powder off the heat, and stir once.",
+      "Scatter coriander and serve with rice or roti."
+    ]
+  },
+  {
+    "id": "dal-makhani",
+    "name": "Dal Makhani",
+    "cuisine": "punjabi",
+    "diet": "veg",
+    "minutes": 50,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "urad dal",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "rajma",
+        "qty": 50,
+        "unit": "g"
+      },
+      {
+        "item": "butter",
+        "qty": 30,
+        "unit": "g"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Soak the urad dal and rajma together overnight.",
+      "Pressure cook them with turmeric and salt until completely soft, then mash lightly.",
+      "Cook the onion, ginger and garlic in oil until soft, add the tomatoes and cook until pulpy.",
+      "Add the mashed dal, half the butter and a cup of hot water.",
+      "Simmer on the lowest flame for twenty minutes, stirring now and then so it does not catch.",
+      "Stir in the garam masala, red chilli powder and the rest of the butter just before serving."
+    ]
+  },
+  {
+    "id": "palak-paneer",
+    "name": "Palak Paneer",
+    "cuisine": "north-indian",
+    "diet": "veg",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein",
+      "quick",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "spinach",
+        "qty": 300,
+        "unit": "g"
+      },
+      {
+        "item": "paneer",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Wash the spinach well. Blanch it in boiling water for two minutes, then drop it into cold water so it keeps its colour.",
+      "Squeeze out the water and blend to a smooth purée.",
+      "Fry the onion in oil until soft, add the ginger and garlic, then the tomato if using.",
+      "Pour in the spinach purée and cook gently for five minutes — do not let it boil hard or it darkens.",
+      "Fold in the paneer cubes and simmer two minutes so they soak up the gravy.",
+      "Season with garam masala and salt, and serve with roti."
+    ]
+  },
+  {
+    "id": "paneer-butter-masala",
+    "name": "Paneer Butter Masala",
+    "cuisine": "punjabi",
+    "diet": "veg",
+    "minutes": 35,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "paneer",
+        "qty": 250,
+        "unit": "g"
+      },
+      {
+        "item": "tomato",
+        "qty": 3,
+        "unit": "piece"
+      },
+      {
+        "item": "butter",
+        "qty": 30,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "milk",
+        "qty": 50,
+        "unit": "ml",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "sugar",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Simmer the tomatoes with the onion, ginger and garlic until they are completely soft.",
+      "Blend and pass through a sieve for a smooth gravy.",
+      "Melt the butter, add the red chilli powder off the heat so it does not burn, then pour in the gravy.",
+      "Cook it down for ten minutes until it deepens in colour and thickens.",
+      "Add the milk, sugar, garam masala and salt, then slide in the paneer cubes.",
+      "Simmer gently for five minutes and serve with rice or naan."
+    ]
+  },
+  {
+    "id": "aloo-gobhi",
+    "name": "Aloo Gobhi",
+    "cuisine": "punjabi",
+    "diet": "vegan",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "medium",
+    "focus": [
+      "budget",
+      "quick",
+      "one-pot"
+    ],
+    "ingredients": [
+      {
+        "item": "potato",
+        "qty": 3,
+        "unit": "piece"
+      },
+      {
+        "item": "cauliflower",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "coriander powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Cut the potatoes into wedges and the cauliflower into florets about the same size.",
+      "Heat the oil and add the cumin, then the onion if using, and fry until soft.",
+      "Add the potatoes and cook for five minutes, turning so they pick up colour.",
+      "Add the cauliflower, turmeric, coriander powder and salt, and toss to coat.",
+      "Cover and cook on a low flame for twelve minutes, shaking the pan rather than stirring so the florets stay whole.",
+      "Uncover, raise the heat for two minutes to dry off any moisture, and finish with coriander."
+    ]
+  },
+  {
+    "id": "bhindi-masala",
+    "name": "Bhindi Masala",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "medium",
+    "focus": [
+      "budget",
+      "quick",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "bhindi",
+        "qty": 400,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "coriander powder",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Wash the bhindi and dry it completely — any water left on it will make it slimy.",
+      "Top and tail each one and cut into two or three pieces.",
+      "Fry the bhindi in the oil on a fairly high flame until the stickiness is gone and the edges are browned. Take it out.",
+      "In the same pan, add the cumin and onion and cook until golden.",
+      "Return the bhindi with the turmeric, coriander powder, red chilli powder and salt.",
+      "Toss for three or four minutes, add coriander, and serve with roti."
+    ]
+  },
+  {
+    "id": "jeera-rice",
+    "name": "Jeera Rice",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 20,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "one-pot",
+      "kid-friendly",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 2,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 400,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rinse the rice until the water runs clear, then soak it for ten minutes and drain.",
+      "Heat the oil and fry the cumin until it darkens and smells nutty.",
+      "Add the onion if using and cook until soft and golden.",
+      "Add the drained rice and toss for a minute so every grain is coated.",
+      "Pour in the water, add salt, and bring to a boil. Cover and cook on the lowest flame for twelve minutes.",
+      "Rest off the heat for five minutes, then fork through gently."
+    ]
+  },
+  {
+    "id": "veg-pulao",
+    "name": "Vegetable Pulao",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "one-pot",
+      "quick",
+      "budget",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "peas",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "beans",
+        "qty": 100,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 400,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Soak the rice for fifteen minutes and drain well.",
+      "Cut the carrot and beans into small pieces, roughly the size of the peas.",
+      "Fry the cumin in oil, then the onion until golden.",
+      "Add the vegetables and cook for three minutes so they lose their raw edge.",
+      "Add the rice, salt and water. Bring to a boil, then cover and cook low for twelve minutes.",
+      "Rest for five minutes before opening, then fluff with a fork."
+    ]
+  },
+  {
+    "id": "khichdi",
+    "name": "Moong Dal Khichdi",
+    "cuisine": "gujarati",
+    "diet": "vegan",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "one-pot",
+      "budget",
+      "quick",
+      "high-fibre",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "moong dal",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "asafoetida",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 700,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rinse the rice and moong dal together and soak for fifteen minutes.",
+      "Heat the oil, add the cumin and asafoetida, then the onion if using and cook until soft.",
+      "Add the carrot and the drained rice and dal, and stir for two minutes.",
+      "Add the turmeric, salt and water and bring to a boil.",
+      "Cover and cook on the lowest flame for eighteen minutes, until the dal has broken down and the rice is soft.",
+      "Rest for five minutes. It should be loose enough to eat with a spoon, so add hot water if it tightens."
+    ]
+  },
+  {
+    "id": "egg-bhurji",
+    "name": "Egg Bhurji",
+    "cuisine": "north-indian",
+    "diet": "egg",
+    "minutes": 15,
+    "serves": 2,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "quick",
+      "high-protein",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "egg",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Beat the eggs with the turmeric and salt until no streaks of white remain.",
+      "Fry the onion in oil until soft and lightly golden.",
+      "Add the tomato and green chilli and cook until the tomato collapses.",
+      "Pour in the eggs and let them set for twenty seconds before you start stirring.",
+      "Scramble over a low flame until just set — take it off while it still looks a little glossy.",
+      "Finish with coriander and eat with pav or roti."
+    ]
+  },
+  {
+    "id": "masala-omelette",
+    "name": "Masala Omelette",
+    "cuisine": "north-indian",
+    "diet": "egg",
+    "minutes": 10,
+    "serves": 2,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "quick",
+      "high-protein",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "egg",
+        "qty": 3,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 0.5,
+        "unit": "piece"
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "tomato",
+        "qty": 0.5,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Chop the onion, tomato, chilli and coriander as finely as you can.",
+      "Beat them into the eggs with the salt and pepper.",
+      "Heat the oil in a flat pan until a drop of egg sizzles on contact.",
+      "Pour in the egg and tilt the pan to spread it thin.",
+      "Cook for two minutes until the edges lift, then fold in half.",
+      "Slide onto a plate and eat straight away."
+    ]
+  },
+  {
+    "id": "egg-curry",
+    "name": "Egg Curry",
+    "cuisine": "north-indian",
+    "diet": "egg",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein",
+      "budget",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "egg",
+        "qty": 6,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "coriander powder",
+        "qty": 2,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Boil the eggs, cool them in water, peel and halve them.",
+      "Fry the onion in oil until deep golden — this is where the gravy gets its sweetness.",
+      "Add the ginger, garlic and tomatoes and cook until the oil separates.",
+      "Stir in the coriander powder, turmeric and garam masala, then add a cup of water and simmer ten minutes.",
+      "Slide in the egg halves cut side up and simmer for three minutes so they heat through.",
+      "Finish with coriander and serve with rice."
+    ]
+  },
+  {
+    "id": "chicken-curry",
+    "name": "Home-style Chicken Curry",
+    "cuisine": "punjabi",
+    "diet": "non-veg",
+    "minutes": 45,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken",
+        "qty": 750,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch"
+      },
+      {
+        "item": "garlic",
+        "qty": 5,
+        "unit": "clove"
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 3,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "coriander powder",
+        "qty": 2,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rub the chicken with turmeric and salt and leave it while you prepare the masala.",
+      "Brown the onions slowly in the oil — give them ten minutes, not three.",
+      "Add the ginger and garlic, then the tomatoes, and cook until the mixture is thick and dark.",
+      "Add the chicken and turn it in the masala until every piece is coated.",
+      "Cover and cook for twenty minutes on a low flame, stirring twice. The chicken will release enough water of its own.",
+      "Uncover, add the garam masala and cook off the excess liquid until the gravy clings to the pieces.",
+      "Finish with coriander."
+    ]
+  },
+  {
+    "id": "butter-chicken",
+    "name": "Butter Chicken",
+    "cuisine": "punjabi",
+    "diet": "non-veg",
+    "minutes": 50,
+    "serves": 4,
+    "costTier": 3,
+    "protein": "high",
+    "oil": "high",
+    "focus": [
+      "high-protein",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken",
+        "qty": 700,
+        "unit": "g"
+      },
+      {
+        "item": "tomato",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "butter",
+        "qty": 50,
+        "unit": "g"
+      },
+      {
+        "item": "curd",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 4,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "sugar",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Marinate the chicken in the curd with a pinch of the red chilli powder and salt for at least half an hour.",
+      "Sear the chicken in oil in batches until browned but not cooked through. Set aside.",
+      "Simmer the tomatoes with the onion, ginger and garlic until completely soft, then blend and sieve.",
+      "Melt the butter and cook the purée down for fifteen minutes until it turns a deep orange.",
+      "Return the chicken with half a cup of hot water and simmer for ten minutes.",
+      "Add the garam masala, sugar and salt, taste, and adjust with a little more butter if it is sharp."
+    ]
+  },
+  {
+    "id": "tandoori-chicken",
+    "name": "Tandoori Chicken",
+    "cuisine": "punjabi",
+    "diet": "non-veg",
+    "minutes": 40,
+    "serves": 4,
+    "costTier": 3,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken",
+        "qty": 800,
+        "unit": "g"
+      },
+      {
+        "item": "curd",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "lemon",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 4,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Slash the chicken pieces a couple of times so the marinade gets inside.",
+      "Mix the curd, lemon juice, ginger, garlic, red chilli powder, garam masala and salt into a thick paste.",
+      "Coat the chicken completely and leave it in the fridge for at least two hours, overnight if you can.",
+      "Heat the oven to 220°C, or get a heavy pan very hot.",
+      "Cook for twenty-five minutes, turning once and brushing with the oil, until the edges char in places.",
+      "Rest for five minutes before serving with onion rings and lemon."
+    ]
+  },
+  {
+    "id": "chicken-pulao",
+    "name": "Chicken Pulao",
+    "cuisine": "north-indian",
+    "diet": "non-veg",
+    "minutes": 45,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "one-pot",
+      "high-protein"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken",
+        "qty": 600,
+        "unit": "g"
+      },
+      {
+        "item": "rice",
+        "qty": 250,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "curd",
+        "qty": 100,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 4,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "garam masala",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 500,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Soak the rice for twenty minutes and drain.",
+      "Brown the onions in the oil until deep golden and set half aside for later.",
+      "Add the ginger, garlic and chicken and fry until the chicken loses its pink colour.",
+      "Stir in the curd, turmeric and garam masala and cook for five minutes.",
+      "Add the rice, salt and water. Bring to a boil, then cover and cook low for fifteen minutes.",
+      "Rest for ten minutes, then fork through and top with the reserved onions."
+    ]
+  },
+  {
+    "id": "sambar",
+    "name": "Sambar",
+    "cuisine": "south-indian",
+    "diet": "vegan",
+    "minutes": 35,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "budget",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "toor dal",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "tamarind",
+        "qty": 1,
+        "unit": "tbsp"
+      },
+      {
+        "item": "sambar powder",
+        "qty": 2,
+        "unit": "tbsp"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "asafoetida",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Pressure cook the toor dal with turmeric and salt until soft, then mash it smooth.",
+      "Soak the tamarind in half a cup of hot water and squeeze out the pulp.",
+      "Boil the onion, tomato and carrot in a cup of water until just tender.",
+      "Add the tamarind water, sambar powder and the mashed dal, and simmer for ten minutes.",
+      "Heat the oil, pop the mustard seeds, add the asafoetida and pour it in.",
+      "Simmer two more minutes and serve with rice or idli."
+    ]
+  },
+  {
+    "id": "rasam",
+    "name": "Tomato Rasam",
+    "cuisine": "south-indian",
+    "diet": "vegan",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "toor dal",
+        "qty": 50,
+        "unit": "g"
+      },
+      {
+        "item": "tamarind",
+        "qty": 1,
+        "unit": "tbsp"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Cook the toor dal with turmeric until soft and mash it.",
+      "Crush the black pepper and cumin roughly with the back of a spoon.",
+      "Simmer the tomatoes and tamarind pulp in two cups of water for eight minutes, then mash the tomato into the liquid.",
+      "Add the dal, the crushed spices, garlic and salt. Bring just to the point of boiling, then take it off — boiling hard kills the aroma.",
+      "Heat the oil, pop the mustard seeds with the curry leaves and pour it over.",
+      "Scatter coriander and drink it from a cup, or serve with rice."
+    ]
+  },
+  {
+    "id": "upma",
+    "name": "Rava Upma",
+    "cuisine": "south-indian",
+    "diet": "vegan",
+    "minutes": 20,
+    "serves": 3,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "kid-friendly",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "rava",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "green chilli",
+        "qty": 2,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "lemon",
+        "qty": 0.5,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 500,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Dry roast the rava in a pan until it smells nutty and turns a shade darker. Tip it onto a plate.",
+      "In the same pan, heat the oil, pop the mustard seeds and add the onion, chilli and curry leaves.",
+      "Add the carrot and fry for two minutes.",
+      "Pour in the water with the salt and bring it to a rolling boil.",
+      "Tip in the rava in a steady stream while stirring, so no lumps form.",
+      "Cover and cook for three minutes, then squeeze over the lemon and fluff with a fork."
+    ]
+  },
+  {
+    "id": "ven-pongal",
+    "name": "Ven Pongal",
+    "cuisine": "south-indian",
+    "diet": "veg",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "medium",
+    "focus": [
+      "one-pot",
+      "budget",
+      "quick",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "moong dal",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "ghee",
+        "qty": 2,
+        "unit": "tbsp"
+      },
+      {
+        "item": "black pepper",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 800,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Dry roast the moong dal until it smells warm and turns pale gold.",
+      "Rinse it with the rice and pressure cook both with the water and salt until very soft — three whistles.",
+      "Mash the mixture while it is still hot so it turns creamy.",
+      "Heat the ghee and fry the pepper, cumin, ginger and curry leaves for a minute.",
+      "Pour the ghee and spices over the pongal and stir through.",
+      "Serve hot with coconut chutney or just on its own."
+    ]
+  },
+  {
+    "id": "cabbage-poriyal",
+    "name": "Cabbage Poriyal",
+    "cuisine": "south-indian",
+    "diet": "vegan",
+    "minutes": 20,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "low-oil",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "cabbage",
+        "qty": 400,
+        "unit": "g"
+      },
+      {
+        "item": "coconut",
+        "qty": 3,
+        "unit": "tbsp"
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.75,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Shred the cabbage finely — the finer it is, the faster it cooks.",
+      "Heat the oil, pop the mustard seeds and add the curry leaves and chilli.",
+      "Add the cabbage, turmeric and salt and toss over a high flame for three minutes.",
+      "Cover and cook for four minutes. It should keep a little bite.",
+      "Uncover, add the coconut and toss for another minute until the raw smell goes.",
+      "Serve as a side with rice and sambar."
+    ]
+  },
+  {
+    "id": "lemon-rice",
+    "name": "Lemon Rice",
+    "cuisine": "south-indian",
+    "diet": "vegan",
+    "minutes": 15,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "lemon",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "peanut",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Cook the rice so the grains stay separate, then spread it on a plate to cool.",
+      "Heat the oil and fry the peanuts until they are a shade darker, then set them aside.",
+      "In the same oil, pop the mustard seeds and add the curry leaves, chilli and turmeric.",
+      "Take the pan off the heat and squeeze in the lemon juice — adding it off the flame keeps it from turning bitter.",
+      "Tip in the cooled rice and salt and fold gently until the colour is even.",
+      "Top with the peanuts and serve at room temperature."
+    ]
+  },
+  {
+    "id": "curd-rice",
+    "name": "Curd Rice",
+    "cuisine": "south-indian",
+    "diet": "veg",
+    "minutes": 10,
+    "serves": 2,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "kid-friendly",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "curd",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "ginger",
+        "qty": 0.5,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 0.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Cook the rice until quite soft, then let it cool a little — hot rice will split the curd.",
+      "Mash the rice roughly with the back of a spoon and stir in the curd and salt.",
+      "Add a splash of water if it looks stiff; it should be loose enough to spoon.",
+      "Heat the oil, pop the mustard seeds with the curry leaves and ginger, and pour it over.",
+      "Stir through and finish with coriander.",
+      "Serve cool, with pickle on the side."
+    ]
+  },
+  {
+    "id": "peanut-chutney",
+    "name": "Peanut Chutney",
+    "cuisine": "south-indian",
+    "diet": "vegan",
+    "minutes": 10,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "peanut",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "green chilli",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "coconut",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "tamarind",
+        "qty": 1,
+        "unit": "tsp",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 2,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Dry roast the peanuts on a low flame until the skins loosen and they smell toasted. Rub off the skins.",
+      "Cool them completely — grinding warm peanuts gives a pasty chutney.",
+      "Grind with the chilli, coconut, tamarind, garlic and salt, adding water a spoon at a time.",
+      "Stop at a coarse, spoonable texture rather than a smooth paste.",
+      "Heat the oil, pop the mustard seeds and pour over the top.",
+      "Serve with idli, dosa or as a sandwich spread."
+    ]
+  },
+  {
+    "id": "aloo-posto",
+    "name": "Aloo Posto",
+    "cuisine": "bengali",
+    "diet": "vegan",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "low",
+    "oil": "medium",
+    "focus": [
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "potato",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "posto",
+        "qty": 3,
+        "unit": "tbsp"
+      },
+      {
+        "item": "green chilli",
+        "qty": 2,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 3,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Soak the posto in a little water for ten minutes, then grind to a thick paste with one green chilli.",
+      "Cut the potatoes into small cubes — about the size of a pea, so they cook quickly.",
+      "Heat the oil, add the mustard seeds, then the potatoes and turmeric, and fry for four minutes.",
+      "Add the posto paste and salt and stir for a minute so it coats every piece.",
+      "Add a few tablespoons of water, cover, and cook on a low flame for eight minutes until the potatoes are done.",
+      "Finish with a slit green chilli and a drizzle of raw mustard oil if you have it. Serve with rice."
+    ]
+  },
+  {
+    "id": "masoor-dal",
+    "name": "Bengali Masoor Dal",
+    "cuisine": "bengali",
+    "diet": "vegan",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "quick",
+      "budget",
+      "one-pot"
+    ],
+    "ingredients": [
+      {
+        "item": "masoor dal",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rinse the masoor dal — it cooks in fifteen minutes and needs no soaking.",
+      "Boil it with turmeric and salt until it falls apart, skimming off the foam at the start.",
+      "Heat the oil, add the cumin, then the onion and fry until soft and sweet.",
+      "Add the tomato and cook until it melts into the oil.",
+      "Pour the dal in, add the red chilli powder and simmer for five minutes.",
+      "Finish with coriander and a squeeze of lemon."
+    ]
+  },
+  {
+    "id": "shorshe-maach",
+    "name": "Shorshe Maach",
+    "cuisine": "bengali",
+    "diet": "non-veg",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 3,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "fish",
+        "qty": 600,
+        "unit": "g"
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 2,
+        "unit": "tbsp"
+      },
+      {
+        "item": "green chilli",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "oil",
+        "qty": 3,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rub the fish with turmeric and salt and leave it for ten minutes.",
+      "Soak the mustard seeds in water for half an hour, then grind with one green chilli and a pinch of salt to a smooth paste. Keep the paste thick.",
+      "Fry the fish lightly in the oil, a minute on each side, and lift it out. Do not cook it through.",
+      "In the same oil, cook the mustard paste gently for two minutes — it should not brown or it turns bitter.",
+      "Add a cup of water and bring to a simmer, then slide the fish back in.",
+      "Cover and cook for six minutes on a low flame, then serve with rice."
+    ]
+  },
+  {
+    "id": "khichuri",
+    "name": "Bengali Khichuri",
+    "cuisine": "bengali",
+    "diet": "vegan",
+    "minutes": 35,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "one-pot",
+      "budget",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "masoor dal",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "potato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "cauliflower",
+        "qty": 100,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "peas",
+        "qty": 50,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 800,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Roast the rice and dal together in a dry pan for three minutes until they smell warm.",
+      "Fry the cumin in the oil, then add the potato and cauliflower and brown them lightly.",
+      "Add the roasted rice and dal and stir for two minutes.",
+      "Add turmeric, salt and the water and bring to a boil.",
+      "Cook covered on a low flame for twenty minutes, stirring occasionally so it does not catch.",
+      "Add the peas five minutes before the end. It should be loose and porridge-like — serve with a fried egg or pickle."
+    ]
+  },
+  {
+    "id": "dhokla",
+    "name": "Besan Dhokla",
+    "cuisine": "gujarati",
+    "diet": "vegan",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "kid-friendly",
+      "budget",
+      "quick",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "besan",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "lemon",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "sugar",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 200,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Whisk the besan with water, lemon juice, turmeric, sugar and salt into a batter with no lumps — it should pour like thick cream.",
+      "Rest it for ten minutes while you heat water in a steamer.",
+      "Stir a teaspoon of baking soda into the batter at the last moment and pour it into a greased tin.",
+      "Steam for eighteen minutes. A skewer should come out clean.",
+      "Cool for five minutes, then cut into squares.",
+      "Heat the oil, pop the mustard seeds with the chilli, add a splash of water and spoon it over the dhokla. Scatter coriander."
+    ]
+  },
+  {
+    "id": "gujarati-kadhi",
+    "name": "Gujarati Kadhi",
+    "cuisine": "gujarati",
+    "diet": "veg",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "curd",
+        "qty": 300,
+        "unit": "g"
+      },
+      {
+        "item": "besan",
+        "qty": 2,
+        "unit": "tbsp"
+      },
+      {
+        "item": "ginger",
+        "qty": 1,
+        "unit": "inch",
+        "optional": true
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "curry leaves",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "sugar",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Whisk the curd with the besan and a cup of water until completely smooth — any lumps will stay lumpy.",
+      "Add the ginger, chilli, turmeric, sugar and salt.",
+      "Cook on a low flame, stirring constantly, for twelve minutes. It thickens as it heats; never let it boil hard or it splits.",
+      "Heat the oil, pop the mustard seeds, add the curry leaves and pour into the kadhi.",
+      "Simmer two more minutes, then scatter coriander.",
+      "Serve over rice with a spoonful of ghee on top."
+    ]
+  },
+  {
+    "id": "thepla",
+    "name": "Methi-free Thepla",
+    "cuisine": "gujarati",
+    "diet": "veg",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "atta",
+        "qty": 250,
+        "unit": "g"
+      },
+      {
+        "item": "curd",
+        "qty": 100,
+        "unit": "g"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "red chilli powder",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Grate the carrot and mix it with the atta, curd, spices, salt and a tablespoon of the oil.",
+      "Add water a little at a time and knead into a firm dough — firmer than chapati dough.",
+      "Rest it for ten minutes, then divide into small balls.",
+      "Roll each one thin, dusting with dry flour so it does not stick.",
+      "Cook on a hot tawa for a minute, flip, brush with oil, and press until brown spots appear on both sides.",
+      "Stack them under a cloth so they stay soft. They keep for a day in a box, which is the point."
+    ]
+  },
+  {
+    "id": "sev-tameta",
+    "name": "Sev Tameta",
+    "cuisine": "gujarati",
+    "diet": "vegan",
+    "minutes": 20,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "medium",
+    "focus": [
+      "quick",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "tomato",
+        "qty": 5,
+        "unit": "piece"
+      },
+      {
+        "item": "sev",
+        "qty": 60,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "sugar",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Chop the tomatoes roughly — no need to be neat, they break down anyway.",
+      "Heat the oil, pop the mustard seeds, add the onion if using and fry until soft.",
+      "Add the tomatoes, turmeric, sugar and salt and cook for ten minutes until they collapse into a loose gravy.",
+      "Mash lightly with the back of the spoon and add a splash of water if it is too thick.",
+      "Take it off the heat and only then scatter the sev on top, so it stays crisp.",
+      "Finish with coriander and serve with rotli."
+    ]
+  },
+  {
+    "id": "masala-pasta",
+    "name": "Masala Pasta",
+    "cuisine": "continental",
+    "diet": "veg",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "pasta",
+        "qty": 250,
+        "unit": "g"
+      },
+      {
+        "item": "tomato",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "capsicum",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "cheese",
+        "qty": 50,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Boil the pasta in well-salted water until just short of done, and keep a cup of the cooking water.",
+      "Soften the onion and garlic in the oil, then add the capsicum and cook two minutes.",
+      "Add the tomatoes and cook until they break down into a sauce — about eight minutes.",
+      "Season with salt and plenty of black pepper, and loosen with the pasta water.",
+      "Tip in the pasta and toss over the heat for a minute so it absorbs the sauce.",
+      "Grate the cheese over the top if you have it."
+    ]
+  },
+  {
+    "id": "chickpea-salad",
+    "name": "Chickpea Salad",
+    "cuisine": "continental",
+    "diet": "vegan",
+    "minutes": 15,
+    "serves": 2,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "quick",
+      "low-oil",
+      "high-fibre",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "chana",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "lemon",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "cucumber",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "If you are using dried chana, soak and boil them until tender and let them cool. Tinned ones just need draining and rinsing.",
+      "Dice the onion, tomato and cucumber small and even.",
+      "Whisk the lemon juice with the oil, salt and pepper.",
+      "Toss everything together and leave it for five minutes so the chickpeas take on the dressing.",
+      "Taste and add more lemon or salt — salads like this need more than you expect.",
+      "Scatter coriander and eat as it is, or spoon it into a roti."
+    ]
+  },
+  {
+    "id": "shakshuka",
+    "name": "Shakshuka",
+    "cuisine": "continental",
+    "diet": "egg",
+    "minutes": 25,
+    "serves": 3,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "one-pot",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "egg",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "capsicum",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Cook the onion in the oil until soft, then add the garlic, cumin and capsicum.",
+      "Add the tomatoes with the salt and cook for twelve minutes until the sauce is thick and jammy rather than watery.",
+      "Make small wells in the sauce with the back of a spoon.",
+      "Crack an egg into each well and season the tops with pepper.",
+      "Cover the pan and cook on the lowest flame for six minutes — the whites should set while the yolks stay loose.",
+      "Scatter coriander and bring the pan to the table with bread."
+    ]
+  },
+  {
+    "id": "tomato-soup",
+    "name": "Tomato Soup",
+    "cuisine": "continental",
+    "diet": "vegan",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "budget",
+      "high-fibre",
+      "kid-friendly",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "tomato",
+        "qty": 6,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "garlic",
+        "qty": 2,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "bread",
+        "qty": 2,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "sugar",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Roughly chop the tomatoes and onion — no precision needed, it all gets blended.",
+      "Soften the onion and garlic in the oil without colouring them.",
+      "Add the tomatoes, sugar and salt and cook for fifteen minutes until they have completely collapsed.",
+      "Add two cups of water and simmer for five minutes.",
+      "Blend until smooth, then pass through a sieve if you want it silky.",
+      "Season with pepper, and float a piece of toasted bread on top if you have it."
+    ]
+  },
+  {
+    "id": "veg-fried-rice",
+    "name": "Vegetable Fried Rice",
+    "cuisine": "continental",
+    "diet": "vegan",
+    "minutes": 20,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "medium",
+    "focus": [
+      "quick",
+      "one-pot",
+      "kid-friendly",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 300,
+        "unit": "g"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "capsicum",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "soy sauce",
+        "qty": 2,
+        "unit": "tbsp"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "peas",
+        "qty": 50,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "This is best with rice cooked the day before and kept in the fridge — fresh rice steams instead of frying.",
+      "Dice the vegetables small and keep them all the same size.",
+      "Get the pan properly hot, add the oil and the garlic, and stir for ten seconds.",
+      "Add the vegetables and stir-fry for three minutes. They should still squeak when you bite them.",
+      "Add the rice, breaking up any clumps with your fingers as you go.",
+      "Splash the soy sauce around the rim of the pan, season with pepper, and toss for two minutes before serving."
+    ]
+  },
+  {
+    "id": "mushroom-toast",
+    "name": "Garlic Mushroom Toast",
+    "cuisine": "continental",
+    "diet": "veg",
+    "minutes": 15,
+    "serves": 2,
+    "costTier": 2,
+    "protein": "medium",
+    "oil": "low",
+    "focus": [
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "item": "mushroom",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "bread",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "butter",
+        "qty": 20,
+        "unit": "g"
+      },
+      {
+        "item": "garlic",
+        "qty": 2,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Wipe the mushrooms clean rather than washing them, and slice them thickly.",
+      "Get a dry pan very hot and add the mushrooms with no fat at all — let them squeak and brown for three minutes.",
+      "Only then add the butter and garlic. Doing it in this order stops them going soggy.",
+      "Season with salt and plenty of pepper and cook two more minutes.",
+      "Toast the bread until it is crisp enough to hold up.",
+      "Spoon the mushrooms over the toast, with all the butter from the pan, and finish with coriander."
+    ]
+  },
+  {
+    "id": "poha",
+    "name": "Poha",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 15,
+    "serves": 3,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "kid-friendly",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "poha",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "lemon",
+        "qty": 0.5,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "peanut",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "mustard seeds",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Put the poha in a colander and rinse it under running water for thirty seconds, then leave it to drain. It softens in its own steam — do not soak it.",
+      "Fry the peanuts in the oil and set them aside.",
+      "Pop the mustard seeds, add the onion and chilli and fry until the onion is soft.",
+      "Add the turmeric and salt, then the drained poha, and fold gently. Stirring hard will mash it.",
+      "Cover for two minutes on a low flame to heat through.",
+      "Squeeze over the lemon, add the peanuts and coriander, and serve."
+    ]
+  },
+  {
+    "id": "besan-chilla",
+    "name": "Besan Chilla",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 20,
+    "serves": 3,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "quick",
+      "budget",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "besan",
+        "qty": 150,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.75,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 200,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Whisk the besan with the water, turmeric and salt until it is smooth and pours easily.",
+      "Stir in the finely chopped onion, tomato, chilli and coriander.",
+      "Rest the batter for ten minutes so the besan hydrates — it makes a softer chilla.",
+      "Spread a thin film of oil on a hot tawa and pour a ladleful of batter, spreading it outwards with the back of the ladle.",
+      "Drizzle a few drops of oil around the edge and cook for two minutes, then flip and cook one more.",
+      "Stack them as you go and serve with curd or pickle."
+    ]
+  },
+  {
+    "id": "aloo-paratha",
+    "name": "Aloo Paratha",
+    "cuisine": "punjabi",
+    "diet": "veg",
+    "minutes": 25,
+    "serves": 3,
+    "costTier": 1,
+    "protein": "medium",
+    "oil": "medium",
+    "focus": [
+      "quick",
+      "kid-friendly",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "atta",
+        "qty": 250,
+        "unit": "g"
+      },
+      {
+        "item": "potato",
+        "qty": 3,
+        "unit": "piece"
+      },
+      {
+        "item": "ghee",
+        "qty": 2,
+        "unit": "tbsp"
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Knead the atta with water and a pinch of salt into a soft, pliable dough. Rest it for fifteen minutes.",
+      "Boil and mash the potatoes while still warm, then mix in the cumin, chilli, coriander and salt. The filling must be dry — wet filling tears the paratha.",
+      "Divide the dough and filling into equal portions, filling slightly smaller than the dough ball.",
+      "Flatten a dough ball, put the filling in the centre, gather the edges up and seal, then roll out gently.",
+      "Cook on a hot tawa for a minute, flip, spread ghee on the cooked side, flip again and press until it puffs and browns.",
+      "Serve hot with curd and pickle."
+    ]
+  },
+  {
+    "id": "cucumber-raita",
+    "name": "Cucumber Raita",
+    "cuisine": "north-indian",
+    "diet": "veg",
+    "minutes": 5,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "low-oil",
+      "kid-friendly",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "item": "curd",
+        "qty": 300,
+        "unit": "g"
+      },
+      {
+        "item": "cucumber",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "coriander",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "cumin",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Whisk the curd until it is smooth and pourable, adding a spoonful of water if it is thick.",
+      "Grate the cucumber and squeeze out the water in your fist — this is what stops the raita going thin.",
+      "Fold the cucumber through the curd.",
+      "Toast the cumin briefly in a dry pan and crush it, then stir it in with the salt.",
+      "Finish with coriander and chill until you serve it."
+    ]
+  },
+  {
+    "id": "paneer-bhurji",
+    "name": "Paneer Bhurji",
+    "cuisine": "north-indian",
+    "diet": "veg",
+    "minutes": 15,
+    "serves": 3,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "high-protein",
+      "quick",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "paneer",
+        "qty": 200,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "green chilli",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1.5,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.75,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Crumble the paneer with your fingers into rough, uneven pieces — grated paneer goes gluey.",
+      "Fry the cumin and onion in the oil until the onion is soft and golden.",
+      "Add the tomato and chilli and cook until the tomato is completely soft.",
+      "Add turmeric and salt, then the paneer, and toss for two minutes only.",
+      "Take it off the heat while it still looks a little loose; it firms up fast.",
+      "Finish with coriander and serve with roti."
+    ]
+  },
+  {
+    "id": "chicken-soup",
+    "name": "Clear Chicken Soup",
+    "cuisine": "continental",
+    "diet": "non-veg",
+    "minutes": 30,
+    "serves": 4,
+    "costTier": 2,
+    "protein": "high",
+    "oil": "low",
+    "focus": [
+      "high-protein",
+      "quick",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "chicken",
+        "qty": 400,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "water",
+        "qty": 1000,
+        "unit": "ml",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Put the chicken, onion, garlic and carrot in a pot with the cold water. Starting cold is what gives a clear broth.",
+      "Bring it slowly to a simmer and skim off the grey foam that rises — do not let it boil hard or it turns cloudy.",
+      "Simmer gently for twenty minutes, then lift out the chicken and shred it, discarding the bones.",
+      "Strain the broth and return it to the pot with the shredded chicken and sliced carrot.",
+      "Season generously with pepper and salt, and simmer five more minutes.",
+      "Finish with coriander and serve with bread."
+    ]
+  },
+  {
+    "id": "veg-sandwich",
+    "name": "Vegetable Sandwich",
+    "cuisine": "continental",
+    "diet": "veg",
+    "minutes": 10,
+    "serves": 2,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "kid-friendly",
+      "budget",
+      "low-oil"
+    ],
+    "ingredients": [
+      {
+        "item": "bread",
+        "qty": 4,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "cucumber",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "butter",
+        "qty": 20,
+        "unit": "g"
+      },
+      {
+        "item": "onion",
+        "qty": 0.5,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Slice the tomato and cucumber thinly and pat them dry with a cloth — wet slices make the bread soggy.",
+      "Butter every slice right to the edges; the butter is what keeps the bread from going soft.",
+      "Layer the vegetables, season with salt and pepper, and close the sandwich.",
+      "Press it lightly with your palm so it holds together.",
+      "Cut in half on the diagonal, which somehow makes it taste better.",
+      "Eat within the hour."
+    ]
+  },
+  {
+    "id": "brinjal-bharta",
+    "name": "Baingan Bharta",
+    "cuisine": "punjabi",
+    "diet": "vegan",
+    "minutes": 35,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "medium",
+    "focus": [
+      "budget",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "brinjal",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 2,
+        "unit": "piece"
+      },
+      {
+        "item": "garlic",
+        "qty": 3,
+        "unit": "clove",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.25,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Rub the brinjals with a little oil and roast them directly over a flame, turning, until the skin blisters all over and the flesh collapses. About fifteen minutes.",
+      "Put them in a bowl and cover for five minutes — the steam loosens the skin.",
+      "Peel off the charred skin and mash the flesh roughly. Do not blend it; it should keep some texture.",
+      "Fry the cumin, garlic and onion in the oil until golden.",
+      "Add the tomatoes, turmeric and salt and cook until the tomatoes are jammy.",
+      "Stir in the mashed brinjal and cook for five minutes, then finish with coriander."
+    ]
+  },
+  {
+    "id": "lauki-sabzi",
+    "name": "Lauki Sabzi",
+    "cuisine": "north-indian",
+    "diet": "vegan",
+    "minutes": 25,
+    "serves": 4,
+    "costTier": 1,
+    "protein": "low",
+    "oil": "low",
+    "focus": [
+      "quick",
+      "budget",
+      "low-oil",
+      "high-fibre"
+    ],
+    "ingredients": [
+      {
+        "item": "lauki",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "tomato",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "coriander",
+        "qty": 2,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 1,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "cumin",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "turmeric",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "coriander powder",
+        "qty": 1,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.75,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Peel the lauki and cut it into cubes about an inch across. Discard the seedy core if it is spongy.",
+      "Heat the oil, add the cumin, then the lauki and fry for three minutes.",
+      "Add the turmeric, coriander powder and salt and toss to coat.",
+      "Add the tomato if using, cover, and cook on a low flame for twelve minutes. Lauki releases plenty of water, so add none.",
+      "Uncover and cook off any excess liquid until the pieces look glazed.",
+      "Finish with coriander and serve with roti."
+    ]
+  },
+  {
+    "id": "egg-fried-rice",
+    "name": "Egg Fried Rice",
+    "cuisine": "continental",
+    "diet": "egg",
+    "minutes": 20,
+    "serves": 3,
+    "costTier": 1,
+    "protein": "high",
+    "oil": "medium",
+    "focus": [
+      "quick",
+      "one-pot",
+      "high-protein",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "item": "rice",
+        "qty": 300,
+        "unit": "g"
+      },
+      {
+        "item": "egg",
+        "qty": 3,
+        "unit": "piece"
+      },
+      {
+        "item": "onion",
+        "qty": 1,
+        "unit": "piece"
+      },
+      {
+        "item": "carrot",
+        "qty": 1,
+        "unit": "piece",
+        "optional": true
+      },
+      {
+        "item": "peas",
+        "qty": 50,
+        "unit": "g",
+        "optional": true
+      },
+      {
+        "item": "soy sauce",
+        "qty": 1,
+        "unit": "tbsp",
+        "optional": true
+      },
+      {
+        "item": "oil",
+        "qty": 2,
+        "unit": "tbsp",
+        "staple": true
+      },
+      {
+        "item": "black pepper",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      },
+      {
+        "item": "salt",
+        "qty": 0.5,
+        "unit": "tsp",
+        "staple": true
+      }
+    ],
+    "steps": [
+      "Use cold cooked rice, broken up with your fingers so there are no clumps.",
+      "Beat the eggs with a pinch of salt.",
+      "Heat half the oil until it shimmers, pour in the eggs and scramble them fast, then take them out while still soft.",
+      "Add the rest of the oil and stir-fry the onion, carrot and peas for three minutes.",
+      "Add the rice and toss over a high flame for two minutes, then return the eggs.",
+      "Season with soy sauce and pepper and serve straight from the pan."
+    ]
+  }
+]
