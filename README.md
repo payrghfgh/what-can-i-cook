@@ -1,8 +1,9 @@
 # What Can I Cook
 
-A static recipe suggester. You type in what is actually in the kitchen, set a few
-constraints, and it ranks the dishes you can cook right now — best match first,
-with quantities scaled to the number of people at your table.
+A static recipe suggester. You tick off what is actually in the kitchen and it
+ranks the dishes you can cook right now — split into "make right now", "one
+ingredient away" and "two away" — with quantities scaled to the number of people
+at your table, and a shopping list for the gap.
 
 No backend, no API keys, no build step. Plain HTML, CSS and JavaScript plus
 `recipes.json`, deployable anywhere that serves files.
@@ -30,11 +31,12 @@ npm run serve      # same thing, python http.server on :8000
 npm test           # node tests/run.mjs
 ```
 
-25 checks covering every acceptance criterion in the brief: alias matching,
+32 checks covering every acceptance criterion in the brief: alias matching,
 the scoring formula, the four diet filters, the hard `avoid` filter, the
 rounding rules for grams / spoons / pieces, the egg formatting rules, the
-"nothing matches" fallback, and the page wiring. The suite is plain Node with
-no dependencies.
+"nothing matches" fallback, course filtering, the three sort modes, the result
+buckets, the unlock suggestions, and the page wiring. The suite is plain Node
+with no dependencies.
 
 ## Deploy
 
@@ -54,6 +56,12 @@ present only to make that explicit.
 
 **`logic.js`** holds all the reasoning and touches no DOM, which is why the
 tests can import it directly.
+
+*The pantry* is a browsable list of 137 ingredients in ten categories
+(vegetables, herbs, dal, grains, dairy, meat, spices, sauces, nuts, fruit), each
+searchable and tickable, plus free text for anything not listed. Every ingredient
+in the vocabulary is used by at least one recipe — the test suite fails if that
+stops being true, so nothing you can tick leads to a dead end.
 
 *Canonicalising.* Every free-text entry is lowercased, stripped of quantities,
 units and filler words, then matched against a vocabulary of ~68 common
@@ -82,6 +90,19 @@ suggestion — it would be a 0% match dressed up as a result. When nothing
 qualifies, the page says what blocked it ("No vegan recipe under 20 minutes with
 what you have") and shows the three closest dishes with their gaps spelled out.
 
+*Sections and sorting.* Results are grouped into **make right now** (nothing
+missing), **one ingredient away** and **two away**, with the rest under "further
+off". Each card shows an x/y ingredient count and a tick when it is complete.
+You can sort by best match, fewest missing, or quickest.
+
+*Unlock suggestions.* Under the filters the page names the single ingredient
+that would open up the most dishes — "eggs unlocks 12" — and adds it to the
+pantry on one tap.
+
+*Shopping list and favourites* live in the browser. "Add to list" on a card puts
+that dish's missing ingredients on the list; the star saves a recipe, and the
+Show filter can narrow the results to saved dishes only.
+
 *Scaling.* `qty * people / recipe.serves`, then rounded so the numbers are
 usable in a kitchen rather than mathematically pure:
 
@@ -105,6 +126,7 @@ file at load.
   "id": "rajma",
   "name": "Rajma",
   "cuisine": "punjabi",
+  "course": "main",
   "diet": "vegan",
   "minutes": 45,
   "serves": 4,
@@ -126,7 +148,9 @@ Notes on the fields:
 
 - `id` must be unique — it keys the expand/collapse state.
 - `cuisine` is one of `north-indian`, `south-indian`, `bengali`, `gujarati`,
-  `punjabi`, `continental`.
+  `punjabi`, `maharashtrian`, `indo-chinese`, `continental`.
+- `course` is one of `breakfast`, `main`, `side`, `snack`, `dessert`, `drink` —
+  this is what the Meal filter reads.
 - `diet` is one of `vegan`, `veg`, `egg`, `non-veg`. `veg` may contain dairy but
   never egg or meat; keep this honest, the filter trusts it.
 - `costTier` is 1, 2 or 3 (₹, ₹₹, ₹₹₹). Only tier 1 satisfies "budget-friendly".
@@ -145,18 +169,18 @@ diet consistency.
 ## What's in here
 
 ```
-index.html      the page: three steps, one screen
+index.html      the page: pantry browser, filters, results, shopping list
 styles.css      warm kitchen-notebook styling, mobile first, dark mode aware
-app.js          DOM wiring, chip inputs, live re-render, localStorage
+app.js          DOM wiring, live re-render, localStorage
 logic.js        vocabulary, canonicalising, filters, scoring, scaling (pure)
-recipes.json    50 recipes
+recipes.json    166 recipes
 tests/run.mjs   the acceptance suite
 netlify.toml    publish config
 ```
 
-The last pantry you typed is kept in `localStorage` under
-`what-can-i-cook:v1`, along with your diet, focus, headcount and cuisine, so the
-next visit opens where you left off.
+The last pantry you ticked is kept in `localStorage` under
+`what-can-i-cook:v2`, along with your diet, focus, headcount, cuisine, saved recipes and shopping
+list, so the next visit opens where you left off.
 
 ## Content notes
 

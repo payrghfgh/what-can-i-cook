@@ -1,31 +1,38 @@
 // What Can I Cook — UI wiring.
-// All the matching and scaling lives in logic.js; this file only touches the DOM.
+// Matching, ranking and scaling live in logic.js; this file only touches the DOM.
 
 import {
-  canonicalise, canonicaliseAll, scaleIngredient,
-  isStaple, rankRecipes,
-  FOCUS_TAGS, DIETS, CUISINES, parseMaxTime, timeLabel, costLabel, costWords
+  VOCAB, GROUPS, BY_KEY, canonicalise, canonicaliseAll, scaleIngredient,
+  isStaple, rankRecipes, suggestUnlocks,
+  FOCUS_TAGS, DIETS, CUISINES, COURSES, SORTS, parseMaxTime,
+  timeLabel, costLabel, costWords
 } from './logic.js';
 
-const STORAGE_KEY = 'what-can-i-cook:v1';
-const PAGE_SIZE = 6;
+const STORAGE_KEY = 'what-can-i-cook:v2';
+const PAGE_SIZE = 8;
 
-const COMMON = [
-  'onion', 'tomato', 'potato', 'rice', 'atta', 'toor dal', 'rajma', 'chana',
-  'paneer', 'curd', 'egg', 'chicken', 'ginger', 'garlic', 'green chilli',
-  'peas', 'spinach', 'poha', 'besan', 'lemon', 'oil', 'salt'
-];
+const PRESETS = {
+  basics: ['onion', 'tomato', 'potato', 'rice', 'atta', 'toor dal', 'ginger', 'garlic', 'green chilli', 'curd', 'cumin', 'turmeric'],
+  fridge: ['egg', 'bread', 'cheese', 'butter', 'milk', 'capsicum', 'carrot', 'peas', 'mushroom', 'pasta', 'soy sauce', 'mayonnaise'],
+  bakery: ['maida', 'sugar', 'butter', 'egg', 'milk', 'baking powder', 'cocoa', 'vanilla', 'curd', 'condensed milk']
+};
 
 const state = {
-  pantry: [],          // [{key, label, known}]
+  pantry: [],
   avoid: [],
   people: 4,
   focus: new Set(),
   diet: 'veg',
   maxTime: 'any',
   cuisine: 'any',
+  course: 'any',
+  sort: 'match',
+  savedOnly: false,
   limit: PAGE_SIZE,
-  expanded: new Set()
+  expanded: new Set(),
+  favourites: new Set(),
+  shopping: [],
+  pantryOpen: true
 };
 
 let recipes = [];
@@ -33,6 +40,7 @@ let recipes = [];
 /* ------------------------------------------------------------------ utils */
 
 const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
 function esc(str) {
   return String(str).replace(/[&<>"']/g, (c) => (
@@ -42,6 +50,7 @@ function esc(str) {
 
 const pantryKeys = () => new Set(state.pantry.map((p) => p.key));
 const avoidKeys = () => new Set(state.avoid.map((a) => a.key));
+const labelFor = (key) => (BY_KEY.get(key) || { label: key }).label;
 
 /* --------------------------------------------------------------- storage */
 
@@ -54,10 +63,15 @@ function save() {
       focus: [...state.focus],
       diet: state.diet,
       maxTime: state.maxTime,
-      cuisine: state.cuisine
+      cuisine: state.cuisine,
+      course: state.course,
+      sort: state.sort,
+      favourites: [...state.favourites],
+      shopping: state.shopping,
+      pantryOpen: state.pantryOpen
     }));
   } catch (err) {
-    /* private mode or storage full — the app still works, it just won't remember */
+    /* private mode or full storage — the app still works, it just won't remember */
   }
 }
 
@@ -76,6 +90,12 @@ function restore() {
   if (Array.isArray(saved.avoid)) {
     state.avoid = canonicaliseAll(saved.avoid.map((p) => (typeof p === 'string' ? p : p.label)));
   }
+  if (Array.isArray(saved.shopping)) {
+    state.shopping = canonicaliseAll(saved.shopping.map((p) => (typeof p === 'string' ? p : p.label)));
+  }
+  if (Array.isArray(saved.favourites)) {
+    state.favourites = new Set(saved.favourites.filter((f) => typeof f === 'string'));
+  }
   if (Number.isFinite(saved.people)) state.people = Math.min(20, Math.max(1, saved.people));
   if (Array.isArray(saved.focus)) {
     state.focus = new Set(saved.focus.filter((f) => FOCUS_TAGS.some((t) => t.id === f)));
@@ -83,109 +103,151 @@ function restore() {
   if (DIETS.some((d) => d.id === saved.diet)) state.diet = saved.diet;
   if (['any', '20', '30', '45', '60+'].includes(saved.maxTime)) state.maxTime = saved.maxTime;
   if (CUISINES.some((c) => c.id === saved.cuisine)) state.cuisine = saved.cuisine;
+  if (COURSES.some((c) => c.id === saved.course)) state.course = saved.course;
+  if (SORTS.some((s) => s.id === saved.sort)) state.sort = saved.sort;
+  if (typeof saved.pantryOpen === 'boolean') state.pantryOpen = saved.pantryOpen;
 }
 
-/* ------------------------------------------------------------ chip rows */
+/* ------------------------------------------------------------ pantry UI */
 
-function renderPantryChips() {
-  const list = $('#pantry-chips');
-  list.innerHTML = '';
-  for (const item of state.pantry) {
-    const li = document.createElement('li');
-    li.className = 'chip' + (item.known ? '' : ' is-unknown');
-    li.innerHTML =
-      `<span class="chip-label">${esc(item.label)}</span>` +
-      `<button type="button" class="chip-remove" aria-label="Remove ${esc(item.label)}" data-key="${esc(item.key)}">×</button>`;
-    if (!item.known) li.title = 'Not in our ingredient list — kept, but it will not match any recipe.';
-    list.appendChild(li);
-  }
-  // keep the common row in sync
+/** Build the categorised, searchable ingredient browser once. */
+function buildPantryGroups() {
+  const wrap = $('#pantry-groups');
+  wrap.innerHTML = GROUPS.map((group) => {
+    const items = VOCAB.filter((v) => v.group === group.id);
+    const chips = items.map((v) => (
+      `<span class="ing-chip">` +
+        `<input type="checkbox" data-key="${esc(v.key)}" id="ing-${esc(v.key.replace(/\s+/g, '-'))}"` +
+        ` aria-label="${esc(v.label)}">` +
+        `<span class="tick">${esc(v.label)}</span>` +
+      `</span>`
+    )).join('');
+    return (
+      `<details class="group" data-group="${group.id}">` +
+        `<summary>${esc(group.label)}` +
+          `<span class="group-count" data-count-for="${group.id}" hidden>0</span>` +
+        `</summary>` +
+        `<div class="ing-grid">${chips}</div>` +
+      `</details>`
+    );
+  }).join('');
+
+  // open the vegetable drawer by default — most people start there
+  const first = wrap.querySelector('.group');
+  if (first) first.open = true;
+}
+
+function syncPantryCheckboxes() {
   const have = pantryKeys();
-  for (const btn of document.querySelectorAll('#common-chips .chip-btn')) {
-    const on = have.has(btn.dataset.key);
-    btn.setAttribute('aria-pressed', String(on));
+  for (const input of $$('#pantry-groups input[type="checkbox"]')) {
+    input.checked = have.has(input.dataset.key);
   }
+  // per-group counts of what you have
+  for (const group of GROUPS) {
+    const total = VOCAB.filter((v) => v.group === group.id && have.has(v.key)).length;
+    const badge = $(`[data-count-for="${group.id}"]`);
+    if (!badge) continue;
+    badge.textContent = String(total);
+    badge.hidden = total === 0;
+  }
+}
+
+function renderSelectedChips() {
+  const list = $('#pantry-selected');
+  list.innerHTML = state.pantry.map((item) => (
+    `<li class="chip${item.known === false ? ' is-unknown' : ''}">` +
+      `<span>${esc(item.label)}</span>` +
+      `<button type="button" class="chip-remove" aria-label="Remove ${esc(item.label)}" data-key="${esc(item.key)}">×</button>` +
+    `</li>`
+  )).join('');
+
+  const hint = $('#pantry-empty-hint');
+  hint.hidden = state.pantry.length > 0;
 }
 
 function renderAvoidChips() {
   const list = $('#avoid-chips');
-  list.innerHTML = '';
-  for (const item of state.avoid) {
-    const li = document.createElement('li');
-    li.className = 'chip';
-    li.innerHTML =
-      `<span class="chip-label">${esc(item.label)}</span>` +
-      `<button type="button" class="chip-remove" aria-label="Stop avoiding ${esc(item.label)}" data-key="${esc(item.key)}">×</button>`;
-    list.appendChild(li);
+  list.innerHTML = state.avoid.map((item) => (
+    `<li class="chip">` +
+      `<span>${esc(item.label)}</span>` +
+      `<button type="button" class="chip-remove" aria-label="Stop avoiding ${esc(item.label)}" data-key="${esc(item.key)}">×</button>` +
+    `</li>`
+  )).join('');
+}
+
+/** Filter the visible ingredient chips by the search box. */
+function applyPantrySearch(term) {
+  const q = String(term || '').trim().toLowerCase();
+  for (const group of $$('#pantry-groups .group')) {
+    let shown = 0;
+    for (const chip of $$('.ing-chip', group)) {
+      const key = chip.querySelector('input').dataset.key;
+      const label = labelFor(key);
+      const hit = !q || label.includes(q) || key.includes(q);
+      chip.hidden = !hit;
+      if (hit) shown++;
+    }
+    group.hidden = shown === 0;
+    if (q && shown > 0) group.open = true;
   }
 }
 
-function buildCommonChips() {
-  const list = $('#common-chips');
-  list.innerHTML = '';
-  for (const name of COMMON) {
-    const hit = canonicalise(name);
-    if (!hit) continue;
-    const li = document.createElement('li');
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'chip-btn';
-    btn.dataset.key = hit.key;
-    btn.textContent = hit.label;
-    btn.setAttribute('aria-pressed', 'false');
-    li.appendChild(btn);
-    list.appendChild(li);
-  }
-}
+/* ------------------------------------------------------------- filters */
 
-function buildChoiceChips() {
-  const focusWrap = $('#focus-chips');
-  focusWrap.innerHTML = FOCUS_TAGS.map((t) => (
-    `<button type="button" class="chip-btn" data-focus="${t.id}" aria-pressed="false">${esc(t.label)}</button>`
-  )).join('');
+function buildFilterControls() {
+  const fill = (sel, options, current) => {
+    const el = $(sel);
+    el.innerHTML = options.map((o) => (
+      `<option value="${o.id}"${o.id === current ? ' selected' : ''}>${esc(o.label)}</option>`
+    )).join('');
+  };
 
-  const dietWrap = $('#diet-chips');
-  dietWrap.innerHTML = DIETS.map((d) => (
-    `<button type="button" class="chip-btn" data-diet="${d.id}" aria-pressed="${d.id === state.diet}">${esc(d.label)}</button>`
-  )).join('');
-
-  const timeWrap = $('#time-chips');
-  const times = [
+  fill('#f-course', COURSES, state.course);
+  fill('#f-diet', DIETS, state.diet);
+  fill('#f-cuisine', CUISINES, state.cuisine);
+  fill('#f-sort', SORTS, state.sort);
+  fill('#f-time', [
     { id: 'any', label: 'Any' },
     { id: '20', label: '20 min' },
     { id: '30', label: '30 min' },
     { id: '45', label: '45 min' },
     { id: '60+', label: '60+ min' }
-  ];
-  timeWrap.innerHTML = times.map((t) => (
-    `<button type="button" class="chip-btn" data-time="${t.id}" aria-pressed="${t.id === state.maxTime}">${esc(t.label)}</button>`
-  )).join('');
+  ], state.maxTime);
 
-  const select = $('#cuisine-select');
-  select.innerHTML = CUISINES.map((c) => (
-    `<option value="${c.id}"${c.id === state.cuisine ? ' selected' : ''}>${esc(c.label)}</option>`
+  $('#focus-chips').innerHTML = FOCUS_TAGS.map((t) => (
+    `<button type="button" class="chip-btn" data-focus="${t.id}" aria-pressed="${state.focus.has(t.id)}">${esc(t.label)}</button>`
   )).join('');
 }
 
-/* --------------------------------------------------------------- results */
+function options() {
+  return {
+    diet: state.diet,
+    maxMinutes: parseMaxTime(state.maxTime),
+    cuisine: state.cuisine,
+    course: state.course,
+    avoid: [...avoidKeys()],
+    focus: [...state.focus],
+    sortBy: state.sort
+  };
+}
+
+/* ------------------------------------------------------------- results */
 
 function cardHTML(match, opts = {}) {
   const { recipe } = match;
   const isOpen = state.expanded.has(recipe.id);
   const pantry = pantryKeys();
   const missingKeys = new Set(match.missing.map((i) => i.item));
+  const isFav = state.favourites.has(recipe.id);
 
+  const complete = match.missing.length === 0;
   const missingLabels = match.missing.map((i) => i.label);
   const shown = missingLabels.slice(0, 3);
   const extra = missingLabels.length - shown.length;
 
-  let needLine;
-  if (!missingLabels.length) {
-    needLine = '<p class="need is-complete">You have everything for this.</p>';
-  } else {
-    needLine = `<p class="need">You'll need <strong>${esc(shown.join(', '))}</strong>` +
-      (extra > 0 ? ` and ${extra} more` : '') + '.</p>';
-  }
+  const needLine = complete
+    ? '<p class="need is-complete">You have everything for this.</p>'
+    : `<p class="need">Missing <strong>${esc(shown.join(', '))}</strong>${extra > 0 ? ` and ${extra} more` : ''}.</p>`;
 
   const serveNote = state.people === recipe.serves
     ? `Serves ${state.people}`
@@ -194,14 +256,16 @@ function cardHTML(match, opts = {}) {
   const meta = [
     timeLabel(recipe.minutes),
     serveNote,
-    `<span title="Estimated cost: ${costWords(recipe.costTier)}">${costLabel(recipe.costTier)}</span>`
+    `<span title="Estimated cost: ${costWords(recipe.costTier)}">${costLabel(recipe.costTier)}</span>`,
+    esc(recipe.cuisine.replace('-', ' '))
   ].map((m) => `<span>${m}</span>`).join('');
 
   const ings = recipe.ingredients.map((ing) => {
     const scaled = scaleIngredient(ing, state.people, recipe.serves);
     const classes = ['ing'];
     if (isStaple(ing)) classes.push('is-staple');
-    if (missingKeys.has(ing.item)) classes.push('is-missing');
+    else if (missingKeys.has(ing.item)) classes.push('is-missing');
+    else classes.push('is-have');
     const tag = isStaple(ing)
       ? '<span class="ing-orig">assumed</span>'
       : (ing.optional ? '<span class="ing-orig">optional</span>' : '');
@@ -214,87 +278,203 @@ function cardHTML(match, opts = {}) {
 
   const steps = recipe.steps.map((s) => `<li>${esc(s)}</li>`).join('');
 
-  const recipePanel =
+  const shopBtn = match.missing.length
+    ? `<button type="button" class="btn-shop-item" data-shop="${esc(recipe.id)}">Add ${match.missing.length} to list</button>`
+    : '';
+
+  const panel =
     `<div class="recipe" id="recipe-${esc(recipe.id)}"${isOpen ? '' : ' hidden'}>` +
-      `<p class="scale-note">Quantities are for ${state.people} ${state.people === 1 ? 'person' : 'people'}` +
+      `<p class="scale-note">Quantities for ${state.people} ${state.people === 1 ? 'person' : 'people'}` +
         (state.people === recipe.serves ? '.' : `, scaled from a recipe that serves ${recipe.serves}.`) + '</p>' +
-      `<h4>Ingredients</h4>` +
+      '<h4>Ingredients</h4>' +
       `<ul class="ing-list">${ings}</ul>` +
-      `<h4>Method</h4>` +
+      '<h4>Method</h4>' +
       `<ol class="steps">${steps}</ol>` +
     '</div>';
 
   return (
-    `<article class="card${opts.fallback ? ' is-fallback' : ''}">` +
+    `<article class="card${complete ? ' is-ready' : ''}${opts.fallback ? ' is-fallback' : ''}" data-id="${esc(recipe.id)}">` +
       '<div class="card-head">' +
         `<h3>${esc(recipe.name)}</h3>` +
-        `<span class="match">${match.percent}% match</span>` +
+        `<span class="have-badge${complete ? ' is-full' : ''}">` +
+          `${complete ? '✓ ' : ''}${match.matchedCount}/${match.requiredCount}` +
+        '</span>' +
       '</div>' +
-      `<div class="match-bar" aria-hidden="true"><span style="--pct:${match.percent}%"></span></div>` +
       `<p class="card-meta">${meta}</p>` +
       needLine +
-      `<button type="button" class="toggle" data-toggle="${esc(recipe.id)}" aria-expanded="${isOpen}" aria-controls="recipe-${esc(recipe.id)}">` +
-        (isOpen ? 'Hide recipe' : 'Show recipe') +
-      '</button>' +
-      recipePanel +
+      '<div class="card-actions">' +
+        `<button type="button" class="toggle" data-toggle="${esc(recipe.id)}" aria-expanded="${isOpen}" aria-controls="recipe-${esc(recipe.id)}">` +
+          (isOpen ? 'Hide recipe' : 'Show recipe') +
+        '</button>' +
+        shopBtn +
+        `<button type="button" class="btn-fav" data-fav="${esc(recipe.id)}" aria-pressed="${isFav}" ` +
+          `aria-label="${isFav ? 'Remove from saved' : 'Save this recipe'}">${isFav ? '★' : '☆'}</button>` +
+      '</div>' +
+      panel +
     '</article>'
   );
 }
 
-function options() {
-  return {
-    diet: state.diet,
-    maxMinutes: parseMaxTime(state.maxTime),
-    cuisine: state.cuisine,
-    avoid: [...avoidKeys()],
-    focus: [...state.focus]
-  };
+function sectionHTML(label, note, matches, opts) {
+  if (!matches.length) return '';
+  return (
+    `<div class="section-head"><h3>${esc(label)}</h3>` +
+      (note ? `<span class="section-note">${esc(note)}</span>` : '') +
+    '</div>' +
+    matches.map((m) => cardHTML(m, opts)).join('')
+  );
 }
 
 function render() {
   const body = $('#results-body');
-  const count = $('#results-count');
+  const countEl = $('#results-count');
   const moreBtn = $('#show-more');
   const opts = options();
 
   if (!recipes.length) {
     body.innerHTML = '<p class="notice">The recipe box did not load. If you opened this file straight from disk, serve the folder over HTTP instead — see the README.</p>';
-    count.textContent = '';
+    countEl.textContent = '';
     moreBtn.hidden = true;
     return;
   }
 
-  const { results, fallback, closest, explanation } = rankRecipes(recipes, pantryKeys(), opts);
+  const ranked = rankRecipes(recipes, pantryKeys(), opts);
 
-  if (fallback) {
-    count.textContent = 'nothing matches every filter';
+  // saved-only is a view filter, applied after ranking
+  const savedFilter = (list) => (state.savedOnly ? list.filter((m) => state.favourites.has(m.recipe.id)) : list);
+
+  if (ranked.fallback) {
+    countEl.textContent = 'nothing matches every filter';
     body.innerHTML =
       '<div class="notice">' +
-        `<h3>Nothing lines up</h3>` +
-        `<p>${esc(explanation)}</p>` +
+        '<h3>Nothing lines up</h3>' +
+        `<p>${esc(ranked.explanation)}</p>` +
         '<p>Here are the three closest, with what they are still missing.</p>' +
       '</div>' +
-      '<p class="section-label">Closest matches</p>' +
-      closest.map((m) => cardHTML(m, { fallback: true })).join('');
+      ranked.closest.map((m) => cardHTML(m, { fallback: true })).join('');
     moreBtn.hidden = true;
+    updateUnlock(ranked);
+    updateStats(0);
     return;
   }
 
-  const total = results.length;
-  const visible = results.slice(0, state.limit);
+  const ordered = savedFilter(ranked.results);
+  const visible = ordered.slice(0, state.limit);
 
-  count.textContent = total === 1 ? '1 dish' : `${total} dishes`;
-
-  const nudge = state.pantry.length === 0
-    ? '<div class="notice"><h3>Start with your pantry</h3><p>Add a few things above and these suggestions will rank by what you can actually cook.</p></div>'
-    : '';
-
-  body.innerHTML = nudge + visible.map((m) => cardHTML(m)).join('');
-
-  moreBtn.hidden = total <= state.limit;
-  if (!moreBtn.hidden) {
-    moreBtn.textContent = `Show ${Math.min(PAGE_SIZE, total - state.limit)} more of ${total}`;
+  if (state.savedOnly && !ordered.length) {
+    countEl.textContent = 'no saved recipes yet';
+    body.innerHTML = '<div class="notice"><h3>Nothing saved yet</h3>' +
+      '<p>Tap the star on any recipe to keep it here.</p></div>';
+    moreBtn.hidden = true;
+    updateUnlock(ranked);
+    updateStats(ranked.stats.makeable);
+    return;
   }
+
+  const bucket = (list, n) => list.filter((m) => m.missing.length === n);
+  const makeNow = bucket(visible, 0);
+  const almost = bucket(visible, 1);
+  const twoAway = bucket(visible, 2);
+  const further = visible.filter((m) => m.missing.length > 2);
+
+  let html = '';
+
+  if (state.pantry.length === 0) {
+    html += '<div class="notice"><h3>Start with your pantry</h3>' +
+      '<p>Tick what you have on the left — or tap a Quick fill preset — and these will rank by what you can actually cook.</p></div>';
+  }
+
+  html += sectionHTML('Make right now', `${makeNow.length} ready to cook`, makeNow);
+  html += sectionHTML('One ingredient away', '', almost);
+  html += sectionHTML('Two away', '', twoAway);
+  html += sectionHTML('Further off', 'the rest of the recipe box', further);
+
+  if (!html.trim()) {
+    html = '<div class="notice"><h3>Nothing here</h3><p>Try widening a filter.</p></div>';
+  }
+
+  body.innerHTML = html;
+
+  const shownCount = visible.length;
+  countEl.textContent = state.savedOnly
+    ? `${ordered.length} saved`
+    : `${ranked.stats.total} recipes · ${ranked.stats.makeable} cookable now`;
+
+  moreBtn.hidden = shownCount >= ordered.length;
+  if (!moreBtn.hidden) {
+    moreBtn.textContent = `Show ${Math.min(PAGE_SIZE, ordered.length - shownCount)} more of ${ordered.length}`;
+  }
+
+  updateUnlock(ranked);
+  updateStats(ranked.stats.makeable);
+}
+
+function updateStats(makeable) {
+  $('#stat-pantry-num').textContent = String(state.pantry.length);
+  $('#stat-recipes-num').textContent = String(makeable);
+}
+
+/** "Add eggs to unlock 12 more" — the popular-additions hint. */
+function updateUnlock(ranked) {
+  const el = $('#unlock-hint');
+  if (!state.pantry.length) {
+    el.hidden = true;
+    return;
+  }
+
+  const unlocks = suggestUnlocks(recipes, pantryKeys(), options(), 3);
+  if (!unlocks.length) {
+    el.hidden = true;
+    return;
+  }
+
+  const parts = unlocks.map((u) => (
+    `<button type="button" class="chip-btn" data-unlock="${esc(u.key)}">${esc(u.label)}</button> ` +
+    `<span>unlocks ${u.count}</span>`
+  ));
+
+  el.innerHTML = `<strong>One ingredient away:</strong> ` + parts.join(' &nbsp;·&nbsp; ');
+  el.hidden = false;
+}
+
+/* ------------------------------------------------------------- shopping */
+
+function renderShop() {
+  const list = $('#shop-list');
+  list.innerHTML = state.shopping.map((item) => (
+    `<li><span>${esc(item.label)}</span>` +
+      `<button type="button" class="chip-remove" data-shop-remove="${esc(item.key)}" aria-label="Remove ${esc(item.label)} from the list">×</button>` +
+    `</li>`
+  )).join('');
+  $('#shop-count').textContent = String(state.shopping.length);
+}
+
+function addMissingToShop(recipeId) {
+  const recipe = recipes.find((r) => r.id === recipeId);
+  if (!recipe) return;
+  const have = pantryKeys();
+  const add = recipe.ingredients
+    .filter((i) => !i.optional && !isStaple(i) && !have.has(i.item));
+
+  for (const ing of add) {
+    if (state.shopping.some((s) => s.key === ing.item)) continue;
+    state.shopping.push({ key: ing.item, label: labelFor(ing.item) });
+  }
+  save();
+  renderShop();
+  openShop();
+}
+
+function openShop() {
+  const pane = $('#shop-pane');
+  pane.hidden = false;
+  $('#shop-toggle').setAttribute('aria-expanded', 'true');
+}
+
+function closeShop() {
+  const pane = $('#shop-pane');
+  pane.hidden = true;
+  $('#shop-toggle').setAttribute('aria-expanded', 'false');
 }
 
 /* ---------------------------------------------------------------- events */
@@ -306,7 +486,8 @@ function addPantry(raw) {
   state.pantry.push(hit);
   state.limit = PAGE_SIZE;
   save();
-  renderPantryChips();
+  syncPantryCheckboxes();
+  renderSelectedChips();
   render();
 }
 
@@ -321,45 +502,109 @@ function addAvoid(raw) {
   render();
 }
 
+function removePantry(key) {
+  state.pantry = state.pantry.filter((p) => p.key !== key);
+  state.limit = PAGE_SIZE;
+  save();
+  syncPantryCheckboxes();
+  renderSelectedChips();
+  render();
+}
+
+function setPantryOpen(open) {
+  state.pantryOpen = open;
+  $('#pantry-body').hidden = !open;
+  const btn = $('#pantry-collapse');
+  btn.textContent = open ? 'Hide' : 'Show';
+  btn.setAttribute('aria-expanded', String(open));
+  save();
+}
+
 function wire() {
-  // pantry
-  $('#pantry-form').addEventListener('submit', (e) => {
+  // pantry checkboxes (delegated — 140 of them)
+  $('#pantry-groups').addEventListener('change', (e) => {
+    const input = e.target.closest('input[type="checkbox"]');
+    if (!input) return;
+    const key = input.dataset.key;
+    if (input.checked) {
+      const hit = canonicalise(key);
+      if (hit && !state.pantry.some((p) => p.key === hit.key)) state.pantry.push(hit);
+    } else {
+      state.pantry = state.pantry.filter((p) => p.key !== key);
+    }
+    state.limit = PAGE_SIZE;
+    save();
+    syncPantryCheckboxes();
+    renderSelectedChips();
+    render();
+  });
+
+  $('#pantry-selected').addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip-remove');
+    if (btn) removePantry(btn.dataset.key);
+  });
+
+  $('#ingredient-search').addEventListener('input', (e) => {
+    applyPantrySearch(e.target.value);
+  });
+
+  $('#presets').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-preset]');
+    if (!btn) return;
+    const name = btn.dataset.preset;
+    if (name === 'clear') {
+      state.pantry = [];
+    } else {
+      const list = PRESETS[name] || [];
+      const merged = [...state.pantry];
+      for (const key of list) {
+        if (merged.some((p) => p.key === key)) continue;
+        const hit = canonicalise(key);
+        if (hit) merged.push(hit);
+      }
+      state.pantry = merged;
+    }
+    state.limit = PAGE_SIZE;
+    save();
+    syncPantryCheckboxes();
+    renderSelectedChips();
+    render();
+  });
+
+  $('#custom-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const input = $('#pantry-input');
-    // allow comma or newline separated batches
-    const parts = input.value.split(/[,;\n]+/).map((s) => s.trim()).filter(Boolean);
-    parts.forEach(addPantry);
+    const input = $('#custom-input');
+    input.value.split(/[,;\n]+/).map((s) => s.trim()).filter(Boolean).forEach(addPantry);
     input.value = '';
     input.focus();
   });
 
-  $('#pantry-chips').addEventListener('click', (e) => {
-    const btn = e.target.closest('.chip-remove');
-    if (!btn) return;
-    state.pantry = state.pantry.filter((p) => p.key !== btn.dataset.key);
+  $('#pantry-collapse').addEventListener('click', () => setPantryOpen(!state.pantryOpen));
+
+  // filters
+  $('#f-course').addEventListener('change', (e) => {
+    state.course = e.target.value; state.limit = PAGE_SIZE; save(); render();
+  });
+  $('#f-diet').addEventListener('change', (e) => {
+    state.diet = e.target.value; state.limit = PAGE_SIZE; save(); render();
+  });
+  $('#f-time').addEventListener('change', (e) => {
+    state.maxTime = e.target.value; state.limit = PAGE_SIZE; save(); render();
+  });
+  $('#f-cuisine').addEventListener('change', (e) => {
+    state.cuisine = e.target.value; state.limit = PAGE_SIZE; save(); render();
+  });
+  $('#f-sort').addEventListener('change', (e) => {
+    state.sort = e.target.value; state.limit = PAGE_SIZE; save(); render();
+  });
+
+  $('#f-saved').addEventListener('change', (e) => {
+    state.savedOnly = e.target.value === 'saved';
     state.limit = PAGE_SIZE;
-    save();
-    renderPantryChips();
     render();
   });
 
-  $('#common-chips').addEventListener('click', (e) => {
-    const btn = e.target.closest('.chip-btn');
-    if (!btn) return;
-    const key = btn.dataset.key;
-    if (state.pantry.some((p) => p.key === key)) {
-      state.pantry = state.pantry.filter((p) => p.key !== key);
-    } else {
-      const hit = canonicalise(btn.textContent);
-      if (hit) state.pantry.push(hit);
-    }
-    state.limit = PAGE_SIZE;
-    save();
-    renderPantryChips();
-    render();
-  });
-
-  // people
+  // headcount stepper — scaling follows this
   $('#people-down').addEventListener('click', () => {
     state.people = Math.max(1, state.people - 1);
     $('#people-value').textContent = state.people;
@@ -373,7 +618,6 @@ function wire() {
     render();
   });
 
-  // focus (multi-select)
   $('#focus-chips').addEventListener('click', (e) => {
     const btn = e.target.closest('.chip-btn');
     if (!btn) return;
@@ -386,46 +630,11 @@ function wire() {
     render();
   });
 
-  // diet (single select)
-  $('#diet-chips').addEventListener('click', (e) => {
-    const btn = e.target.closest('.chip-btn');
-    if (!btn) return;
-    state.diet = btn.dataset.diet;
-    for (const b of document.querySelectorAll('#diet-chips .chip-btn')) {
-      b.setAttribute('aria-pressed', String(b.dataset.diet === state.diet));
-    }
-    state.limit = PAGE_SIZE;
-    save();
-    render();
-  });
-
-  // max time (single select)
-  $('#time-chips').addEventListener('click', (e) => {
-    const btn = e.target.closest('.chip-btn');
-    if (!btn) return;
-    state.maxTime = btn.dataset.time;
-    for (const b of document.querySelectorAll('#time-chips .chip-btn')) {
-      b.setAttribute('aria-pressed', String(b.dataset.time === state.maxTime));
-    }
-    state.limit = PAGE_SIZE;
-    save();
-    render();
-  });
-
-  // cuisine
-  $('#cuisine-select').addEventListener('change', (e) => {
-    state.cuisine = e.target.value;
-    state.limit = PAGE_SIZE;
-    save();
-    render();
-  });
-
   // avoid
   $('#avoid-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const input = $('#avoid-input');
-    const parts = input.value.split(/[,;\n]+/).map((s) => s.trim()).filter(Boolean);
-    parts.forEach(addAvoid);
+    input.value.split(/[,;\n]+/).map((s) => s.trim()).filter(Boolean).forEach(addAvoid);
     input.value = '';
     input.focus();
   });
@@ -440,24 +649,84 @@ function wire() {
     render();
   });
 
-  // show more / recipe expanders (delegated: cards are re-rendered often)
+  // unlock hint
+  $('#unlock-hint').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-unlock]');
+    if (btn) addPantry(btn.dataset.unlock);
+  });
+
+  // results: expand, favourite, shopping
   $('#results-body').addEventListener('click', (e) => {
     const toggle = e.target.closest('.toggle');
-    if (!toggle) return;
-    const id = toggle.dataset.toggle;
-    const panel = document.getElementById('recipe-' + id);
-    if (!panel) return;
-    const open = state.expanded.has(id);
-    if (open) state.expanded.delete(id);
-    else state.expanded.add(id);
-    panel.hidden = open;
-    toggle.setAttribute('aria-expanded', String(!open));
-    toggle.textContent = open ? 'Show recipe' : 'Hide recipe';
+    if (toggle) {
+      const id = toggle.dataset.toggle;
+      const panel = document.getElementById('recipe-' + id);
+      if (!panel) return;
+      const open = state.expanded.has(id);
+      if (open) state.expanded.delete(id);
+      else state.expanded.add(id);
+      panel.hidden = open;
+      toggle.setAttribute('aria-expanded', String(!open));
+      toggle.textContent = open ? 'Show recipe' : 'Hide recipe';
+      return;
+    }
+
+    const fav = e.target.closest('[data-fav]');
+    if (fav) {
+      const id = fav.dataset.fav;
+      if (state.favourites.has(id)) state.favourites.delete(id);
+      else state.favourites.add(id);
+      const on = state.favourites.has(id);
+      fav.setAttribute('aria-pressed', String(on));
+      fav.textContent = on ? '★' : '☆';
+      fav.setAttribute('aria-label', on ? 'Remove from saved' : 'Save this recipe');
+      save();
+      if (state.savedOnly) render();
+      return;
+    }
+
+    const shop = e.target.closest('[data-shop]');
+    if (shop) addMissingToShop(shop.dataset.shop);
   });
 
   $('#show-more').addEventListener('click', () => {
     state.limit += PAGE_SIZE;
     render();
+  });
+
+  // shopping list
+  $('#shop-toggle').addEventListener('click', () => {
+    const open = $('#shop-toggle').getAttribute('aria-expanded') === 'true';
+    if (open) closeShop();
+    else openShop();
+  });
+  $('#shop-close').addEventListener('click', closeShop);
+
+  $('#shop-list').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-shop-remove]');
+    if (!btn) return;
+    state.shopping = state.shopping.filter((s) => s.key !== btn.dataset.shopRemove);
+    save();
+    renderShop();
+  });
+
+  $('#shop-clear').addEventListener('click', () => {
+    state.shopping = [];
+    save();
+    renderShop();
+  });
+
+  $('#shop-copy').addEventListener('click', async () => {
+    const text = state.shopping.map((s) => `- ${s.label}`).join('\n');
+    if (!text) return;
+    const btn = $('#shop-copy');
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = 'Copied';
+    } catch (err) {
+      btn.textContent = 'Copy failed';
+    }
+    setTimeout(() => { btn.textContent = 'Copy list'; }, 1600);
   });
 }
 
@@ -465,11 +734,15 @@ function wire() {
 
 async function boot() {
   restore();
-  buildCommonChips();
-  buildChoiceChips();
-  renderPantryChips();
+  buildPantryGroups();
+  buildFilterControls();
+  syncPantryCheckboxes();
+  renderSelectedChips();
   renderAvoidChips();
+  renderShop();
+  setPantryOpen(state.pantryOpen);
   $('#people-value').textContent = state.people;
+  $('#f-saved').value = state.savedOnly ? 'saved' : 'all';
   wire();
 
   try {

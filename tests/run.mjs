@@ -7,7 +7,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   canonicalise, canonicaliseAll, rankRecipes, scaleIngredient, formatQty, formatEggs,
-  scoreRecipe, passesFilters, requiredIngredients, isStaple, parseMaxTime, STAPLES
+  scoreRecipe, passesFilters, requiredIngredients, isStaple, parseMaxTime, STAPLES,
+  suggestUnlocks, VOCAB, GROUPS, CUISINES
 } from '../logic.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -237,7 +238,13 @@ check('Empty pantry does not crash and still returns something', () => {
   const out = rankRecipes(recipes, new Set(), { diet: 'veg' });
   assert(out.results.length > 0, 'empty pantry produced nothing');
   assert(out.results.every((m) => m.percent >= 0), 'negative percentages leaked into the display');
-  const strict = rankRecipes(recipes, new Set(), { diet: 'vegan', maxMinutes: 20, cuisine: 'bengali' });
+  // find a diet/course pair the box genuinely cannot fill, so this stays true as recipes are added
+  const combos = ['vegan', 'veg', 'egg', 'non-veg'].flatMap((d) =>
+    ['breakfast', 'main', 'side', 'snack', 'dessert', 'drink'].map((c) => ({ d, c })));
+  const impossible = combos.find(({ d, c }) => !recipes.some((r) => passesFilters(r, { diet: d, course: c, avoid: [] })));
+  assert(impossible, 'expected at least one unfillable diet/course combination');
+  const strict = rankRecipes(recipes, new Set(), { diet: impossible.d, course: impossible.c });
+  assert(strict.fallback === true, `${impossible.d}/${impossible.c} should fall back`);
   assert(typeof strict.explanation === 'string' && strict.explanation.length > 0, 'no explanation for the strict empty case');
   return `${out.results.length} dishes still listed, top is ${out.results[0].recipe.name}`;
 });
@@ -256,15 +263,21 @@ check('every focus chip can return something', () => {
   return report.join(', ');
 });
 
-check('at least 40 recipes, 8 high-protein, 8 under 20 minutes, 8 one-pot', () => {
-  assert(recipes.length >= 40, `only ${recipes.length} recipes`);
+check('150+ recipes with every focus chip and course covered', () => {
+  assert(recipes.length >= 150, `only ${recipes.length} recipes`);
   const hp = recipes.filter((r) => r.focus.includes('high-protein')).length;
   const fast = recipes.filter((r) => r.minutes < 20).length;
   const pot = recipes.filter((r) => r.focus.includes('one-pot')).length;
   assert(hp >= 8, `only ${hp} high-protein`);
   assert(fast >= 8, `only ${fast} under 20 minutes`);
   assert(pot >= 8, `only ${pot} one-pot`);
-  return `${recipes.length} recipes, ${hp} high-protein, ${fast} under 20 min, ${pot} one-pot`;
+  for (const c of ['breakfast', 'main', 'side', 'snack', 'dessert', 'drink']) {
+    assert(recipes.some((r) => r.course === c), `no ${c} recipes`);
+  }
+  for (const c of CUISINES.filter((x) => x.id !== 'any')) {
+    assert(recipes.some((r) => r.cuisine === c.id), `no ${c.label} recipes`);
+  }
+  return `${recipes.length} recipes, ${hp} high-protein, ${fast} under 20 min, ${pot} one-pot, every course and cuisine covered`;
 });
 
 check('every recipe has required ingredients, steps and a valid shape', () => {
@@ -303,6 +316,82 @@ check('max time 60+ means no upper limit', () => {
   assert(parseMaxTime('any') === null, 'any should not impose a ceiling');
   assert(parseMaxTime('20') === 20, '20 should map to 20');
   return '60+ and any impose no ceiling';
+});
+
+console.log('\nNew: courses, sorting, buckets, unlocks');
+
+check('course filter returns only that course', () => {
+  const pantry = keys(['onion', 'tomato', 'rice', 'atta', 'potato', 'egg', 'milk', 'sugar', 'maida', 'butter']);
+  for (const course of ['breakfast', 'main', 'side', 'snack', 'dessert', 'drink']) {
+    const { results } = rankRecipes(recipes, pantry, { diet: 'non-veg', course });
+    assert(results.length > 0, `${course} returned nothing`);
+    assert(results.every((m) => m.recipe.course === course), `${course} leaked another course`);
+  }
+  return 'six courses, no leaks';
+});
+
+check('sorting by fewest-missing and by quickest both work', () => {
+  const pantry = keys(['onion', 'tomato', 'rice', 'potato', 'toor dal']);
+  const missing = rankRecipes(recipes, pantry, { diet: 'veg', sortBy: 'missing' }).results;
+  for (let i = 1; i < missing.length; i++) {
+    assert(missing[i - 1].missing.length <= missing[i].missing.length, `missing sort broken at ${i}`);
+  }
+  const quick = rankRecipes(recipes, pantry, { diet: 'veg', sortBy: 'quick' }).results;
+  for (let i = 1; i < quick.length; i++) {
+    assert(quick[i - 1].recipe.minutes <= quick[i].recipe.minutes, `quick sort broken at ${i}`);
+  }
+  return `${missing.length} results sorted both ways`;
+});
+
+check('results are bucketed into make-now / one-away / two-away', () => {
+  const pantry = keys(['onion', 'tomato', 'rice', 'potato', 'toor dal', 'atta', 'ginger', 'garlic']);
+  const out = rankRecipes(recipes, pantry, { diet: 'veg' });
+  assert(out.makeNow.every((m) => m.missing.length === 0), 'makeNow has a gap');
+  assert(out.almost.every((m) => m.missing.length === 1), 'almost has the wrong gap');
+  assert(out.twoAway.every((m) => m.missing.length === 2), 'twoAway has the wrong gap');
+  assert(out.makeNow.length + out.almost.length + out.twoAway.length <= out.results.length);
+  assert(out.stats.makeable === out.makeNow.length, 'stats.makeable disagrees with the bucket');
+  return `${out.makeNow.length} ready, ${out.almost.length} one away, ${out.twoAway.length} two away`;
+});
+
+check('the unlock hint names an ingredient that really unlocks dishes', () => {
+  const pantry = keys(['onion', 'tomato', 'rice']);
+  const unlocks = suggestUnlocks(recipes, pantry, { diet: 'veg' }, 3);
+  assert(unlocks.length > 0, 'no unlock suggestions');
+  for (const u of unlocks) {
+    assert(!pantry.has(u.key), `${u.key} is already in the pantry`);
+    assert(u.count > 0, `${u.key} unlocks nothing`);
+  }
+  const top = unlocks[0];
+  const wouldComplete = recipes.filter((r) => {
+    const req = requiredIngredients(r);
+    const missing = req.filter((i) => !pantry.has(i.item));
+    return missing.length === 1 && missing[0].item === top.key;
+  }).length;
+  assert(wouldComplete === top.count, `claimed ${top.count}, actually ${wouldComplete}`);
+  return `${top.label} unlocks ${top.count}`;
+});
+
+check('a pinch never scales into a fraction', () => {
+  const pinch = scaleIngredient({ item: 'saffron', qty: 1, unit: 'pinch' }, 7, 4);
+  assert(!/\d\.\d/.test(pinch.text), `pinch scaled to "${pinch.text}"`);
+  assert(pinch.text === '2 pinch', `expected "2 pinch", got "${pinch.text}"`);
+  return '1 pinch at 7 people → ' + pinch.text;
+});
+
+check('every pantry ingredient leads to at least one recipe', () => {
+  const orphans = VOCAB.filter((v) => !recipes.some((r) => r.ingredients.some((i) => i.item === v.key)));
+  assert(!orphans.length, 'no recipe uses: ' + orphans.map((o) => o.key).join(', '));
+  return `${VOCAB.length} ingredients all used`;
+});
+
+check('pantry ingredients are grouped for browsing', () => {
+  for (const v of VOCAB) {
+    assert(GROUPS.some((g) => g.id === v.group), `${v.key} has group "${v.group}" which is not in GROUPS`);
+  }
+  const empty = GROUPS.filter((g) => !VOCAB.some((v) => v.group === g.id));
+  assert(!empty.length, 'empty groups: ' + empty.map((g) => g.id).join(', '));
+  return `${GROUPS.length} groups, none empty`;
 });
 
 console.log('\nPage wiring');
