@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# environment — real values live in the Netlify dashboard, never in the repo
+.env
+.env.*
+!.env.example
+
+# build output (there is no build step, but editors and tools create these)
+dist/
+build/
+.netlify/
+
+# editor and OS noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# logs
+npm-debug.log*
+yarn-error.log*
