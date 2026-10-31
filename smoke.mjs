@@ -114,6 +114,17 @@ await check('the pantry browser lists every ingredient in categories', async () 
   return `${boxes.length} ingredients in ${groups.length} categories`;
 });
 
+await check('the vegetables drawer is open and its chips are visible on first paint', async () => {
+  const drawer = window.document.querySelector('.group[data-group="vegetables"]');
+  assert(drawer, 'no vegetables drawer');
+  assert(drawer.open, 'the drawer is not open on load — the chips would need a reflow to appear');
+  const chips = [...drawer.querySelectorAll('.ing-chip')].filter((c) => !c.hidden);
+  assert(chips.length > 20, `only ${chips.length} chips visible`);
+  const first = chips[0].querySelector('.tick');
+  assert(first && first.textContent.trim(), 'chips have no label');
+  return `${chips.length} chips, e.g. "${first.textContent.trim()}"`;
+});
+
 await check('no JavaScript errors while booting', async () => {
   assert(errors.length === 0, errors.join('; '));
 });

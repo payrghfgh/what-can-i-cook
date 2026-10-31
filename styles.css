@@ -1085,3 +1085,17 @@ input[type="search"]:focus,
 .local-banner code { font-family: var(--mono); font-size: .74rem; color: var(--ink); }
 
 .auth-label-row .linkish[hidden] { display: none; }
+
+/* ---------------------------------------------------------------- netlify badge */
+
+/* Netlify injects a "Powered by Netlify" badge into the page on some plans.
+   It is not part of this site, so it is hidden here rather than left floating
+   over the footer. If it still appears, it is being added by Netlify's snippet
+   injection: Site configuration → Build & deploy → Post processing. */
+#netlify-badge,
+.netlify-badge,
+[data-netlify-badge],
+a[href^="https://www.netlify.com"]:not([data-keep-link]),
+iframe[src*="netlify.com/badge"] {
+  display: none !important;
+}

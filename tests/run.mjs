@@ -460,6 +460,14 @@ check('the app runs without Firebase instead of walling itself off', () => {
   return 'local mode, then gate + sync once configured';
 });
 
+check('the injected Netlify badge is hidden by the stylesheet', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  assert(/#netlify-badge/.test(css), 'no rule for the Netlify badge');
+  assert(/\.netlify-badge/.test(css), 'no rule for the badge class');
+  assert(/display: none !important/.test(css), 'the badge rule does not actually hide anything');
+  return 'badge selectors hidden';
+});
+
 check('store.js keeps a local copy before writing to the database', () => {
   const src = fs.readFileSync(path.join(root, 'store.js'), 'utf8');
   assert(/setDoc/.test(src) && /getDoc/.test(src), 'Firestore reads/writes are missing');

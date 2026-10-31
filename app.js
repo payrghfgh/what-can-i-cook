@@ -178,7 +178,7 @@ function restore() {
 /** Build the categorised, searchable ingredient browser once. */
 function buildPantryGroups() {
   const wrap = $('#pantry-groups');
-  wrap.innerHTML = GROUPS.map((group) => {
+  wrap.innerHTML = GROUPS.map((group, index) => {
     const items = VOCAB.filter((v) => v.group === group.id);
     const chips = items.map((v) => (
       `<span class="ing-chip">` +
@@ -188,7 +188,7 @@ function buildPantryGroups() {
       `</span>`
     )).join('');
     return (
-      `<details class="group" data-group="${group.id}">` +
+      `<details class="group" data-group="${group.id}"${index === 0 ? ' open' : ''}>` +
         `<summary>${esc(group.label)}` +
           `<span class="group-count" data-count-for="${group.id}" hidden>0</span>` +
         `</summary>` +
@@ -197,9 +197,8 @@ function buildPantryGroups() {
     );
   }).join('');
 
-  // open the vegetable drawer by default — most people start there
-  const first = wrap.querySelector('.group');
-  if (first) first.open = true;
+  // The vegetables drawer is opened by the markup above, so the chips are painted
+  // with the page instead of appearing only after a reflow.
 }
 
 function syncPantryCheckboxes() {
