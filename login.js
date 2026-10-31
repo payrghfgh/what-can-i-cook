@@ -68,6 +68,8 @@ function setMode(next) {
   }
   const creating = mode === 'create';
   $('#name-field').hidden = !creating;
+  // you cannot reset the password of an account you have not created yet
+  $('#reset-btn').hidden = creating;
   $('#email-submit').textContent = creating ? 'Create account' : 'Sign in';
   $('#auth-password').setAttribute('autocomplete', creating ? 'new-password' : 'current-password');
   say('');

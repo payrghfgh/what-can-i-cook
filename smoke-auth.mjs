@@ -194,6 +194,7 @@ await check('creating an account switches the form and sets a name', async () =>
   await tick();
   assert(!page.$('#name-field').hidden, 'name field hidden in create mode');
   assert(page.$('#email-submit').textContent === 'Create account', 'button label did not change');
+  assert(page.$('#reset-btn').hidden, 'the forgot-password link is offered while creating an account');
 
   page.$('#auth-name').value = 'Asha';
   page.$('#auth-email').value = 'new@example.com';
@@ -224,6 +225,23 @@ await check('Google and Apple open their provider popups', async () => {
   await waitFor(() => pageB.navAttempts.find((m) => /navigation/i.test(m)));
   assert(fake5.__calls.includes('popup:apple'), 'Apple popup not opened: ' + fake5.__calls.join(','));
   return 'google and apple';
+});
+
+await check('forgot password is offered when signing in, not when creating', async () => {
+  const fake = fakeFirebase();
+  await setAuthBackend(fake);
+  const page = openPage('login.html');
+  await import('./login.js?run=6b');
+  await tick(60);
+
+  assert(!page.$('#reset-btn').hidden, 'no forgot-password link on the sign-in form');
+  page.$$('.auth-tab').find((t) => t.dataset.mode === 'create').click();
+  await tick();
+  assert(page.$('#reset-btn').hidden, 'still shown in create mode');
+  page.$$('.auth-tab').find((t) => t.dataset.mode === 'signin').click();
+  await tick();
+  assert(!page.$('#reset-btn').hidden, 'did not come back on the sign-in form');
+  return 'shown for sign-in, hidden for create';
 });
 
 await check('a password reset asks for an email first', async () => {

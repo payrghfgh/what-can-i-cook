@@ -1084,3 +1084,5 @@ input[type="search"]:focus,
 .local-banner[hidden] { display: none; }
 .local-banner strong { color: var(--ink); }
 .local-banner code { font-family: var(--mono); font-size: .74rem; color: var(--ink); }
+
+.auth-label-row .linkish[hidden] { display: none; }
