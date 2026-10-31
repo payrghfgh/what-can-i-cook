@@ -1,0 +1,20 @@
+{
+  "name": "what-can-i-cook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A static recipe suggester: tell it what's in your kitchen, it ranks what you can cook.",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run.mjs",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "recipes",
+    "static-site",
+    "no-build"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jsdom": "^29.1.1"
+  }
+}
