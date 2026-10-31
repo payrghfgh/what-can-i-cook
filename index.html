@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Can I Cook — a recipe suggester for what's already in your kitchen</title>
+<meta name="description" content="Tell What Can I Cook what's in your kitchen and it ranks Indian and continental recipes by how much of them you can already make. No account, no ads, works offline once loaded.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fdf8ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16120e" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c05a2a'/%3E%3Cpath d='M9 13h14a7 7 0 0 1-14 0Z' fill='%23fdf8ef'/%3E%3Cpath d='M13 9v2M16 8v3M19 9v2' stroke='%23fdf8ef' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#results">Skip to suggestions</a>
+
+<header class="masthead">
+  <p class="eyebrow">A kitchen notebook</p>
+  <h1>What Can I Cook</h1>
+  <p class="lede">Type in what's in the kitchen. We'll rank what you can make right now, best first.</p>
+</header>
+
+<main class="layout">
+
+  <div class="controls">
+
+    <!-- Step 1 -->
+    <section class="step" aria-labelledby="h-ingredients">
+      <h2 id="h-ingredients"><span class="step-num" aria-hidden="true">1</span> What's in your kitchen?</h2>
+
+      <form class="add-row" id="pantry-form" autocomplete="off">
+        <label class="sr-only" for="pantry-input">Add an ingredient</label>
+        <input id="pantry-input" name="ingredient" type="text" placeholder="pyaz, 1 onion, tomatoes…" enterkeyhint="done" spellcheck="false">
+        <button class="btn-add" type="submit">Add</button>
+      </form>
+      <p class="hint">Loose spelling is fine — “pyaz”, “onions” and “1 onion” all count as onion.</p>
+
+      <ul class="chips" id="pantry-chips" aria-label="Ingredients in your kitchen"></ul>
+
+      <h3 class="sub-head">Common things</h3>
+      <ul class="chips chips-common" id="common-chips" aria-label="Common ingredients, tap to add"></ul>
+    </section>
+
+    <!-- Step 2 -->
+    <section class="step" aria-labelledby="h-constraints">
+      <h2 id="h-constraints"><span class="step-num" aria-hidden="true">2</span> Who and what</h2>
+
+      <div class="field">
+        <span class="field-label" id="people-label">How many people</span>
+        <div class="stepper" role="group" aria-labelledby="people-label">
+          <button type="button" class="stepper-btn" id="people-down" aria-label="One fewer person">−</button>
+          <output id="people-value" aria-live="polite">4</output>
+          <button type="button" class="stepper-btn" id="people-up" aria-label="One more person">+</button>
+        </div>
+      </div>
+
+      <fieldset class="field">
+        <legend class="field-label">Focus</legend>
+        <div class="chips chips-choice" id="focus-chips"></div>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend class="field-label">Diet</legend>
+        <div class="chips chips-choice" id="diet-chips"></div>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend class="field-label">Max time</legend>
+        <div class="chips chips-choice" id="time-chips"></div>
+      </fieldset>
+
+      <div class="field">
+        <label class="field-label" for="cuisine-select">Cuisine</label>
+        <select id="cuisine-select" class="select"></select>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="avoid-input">Avoid — dislikes and allergies</label>
+        <form class="add-row" id="avoid-form" autocomplete="off">
+          <input id="avoid-input" name="avoid" type="text" placeholder="peanut, mushroom…" enterkeyhint="done" spellcheck="false">
+          <button class="btn-add" type="submit">Add</button>
+        </form>
+        <ul class="chips" id="avoid-chips" aria-label="Ingredients to avoid"></ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- Step 3 -->
+  <section class="results" id="results" aria-labelledby="h-results">
+    <div class="results-head">
+      <h2 id="h-results"><span class="step-num" aria-hidden="true">3</span> What you can cook</h2>
+      <p class="results-count" id="results-count" aria-live="polite" role="status"></p>
+    </div>
+
+    <div id="results-body">
+      <p class="loading">Reading the recipe box…</p>
+    </div>
+
+    <button class="btn-more" id="show-more" type="button" hidden>Show more</button>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Every recipe is in <code>recipes.json</code> — edit it and the whole site follows. Quantities scale to your table.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
