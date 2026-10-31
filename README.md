@@ -38,12 +38,17 @@ no dependencies.
 
 ## Deploy
 
-`netlify.toml` already sets the publish directory to the repo root and no build
-command, so on Netlify you only need to connect the repo. For any other static
-host, upload the repo root as-is.
+**Live:** https://payrghfgh.github.io/what-can-i-cook/ — GitHub Pages, serving
+the `main` branch from the repo root. Push to `main` and it redeploys itself;
+the `.nojekyll` file makes Pages serve the files verbatim rather than running
+them through Jekyll.
 
-There are **no environment variables** to set. `.env.example` is present only
-to make that explicit.
+Netlify works just as well: `netlify.toml` already sets the publish directory to
+the repo root with no build command, so you only need to connect the repo. Any
+other static host: upload the repo root as-is.
+
+There are **no environment variables** to set on either host. `.env.example` is
+present only to make that explicit.
 
 ## How it works
 
