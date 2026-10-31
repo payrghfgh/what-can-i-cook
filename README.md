@@ -103,11 +103,17 @@ Every route ends with a verified Firebase user, and `index.html` sends you to
 4. **Authentication → Settings → Authorised domains**, add every host the site
    runs on — `localhost`, your `*.netlify.app` domain and `yourname.github.io`.
    Sign-in fails with `auth/unauthorized-domain` until a host is listed.
-5. **Firestore Database → Create database**, then open the **Rules** tab, paste
-   in `firestore.rules` from this repo and publish. Until you do, saving fails
-   quietly and the app falls back to the local copy (the sync chip says
-   "Local only"). Do **not** leave it in test mode — that opens the database to
-   anyone for 30 days.
+5. **Firestore Database → Create database** (production mode, not test mode),
+   then publish `firestore.rules`. Two ways:
+   - **Console:** open the **Rules** tab, replace the contents with
+     `firestore.rules` from this repo, hit **Publish**.
+   - **CLI:** `npx firebase-tools login` once, then
+     `npx firebase-tools deploy --only firestore:rules --project <your-project-id>`
+     — `firebase.json` already points at the rules file.
+
+   Until the rules are published, saving fails quietly and the app falls back to
+   the local copy (the sync chip says "Local only"). Do **not** leave the
+   database in test mode — that opens it to anyone for 30 days.
 
 Until step 2 is done the site runs in "not configured" mode: the sign-in page
 says so instead of failing silently, and `index.html` stops at a card telling you
@@ -336,7 +342,8 @@ app.js          app wiring, live re-render, per-profile storage
 login.js        sign-in page wiring for all four routes
 auth.js         Firebase seam: sessions, providers, readable errors
 store.js        Firestore seam: local cache, debounced writes, sync status
-firestore.rules security rules — owner-only access, paste into the console
+firestore.rules security rules — owner-only access, publish via console or CLI
+firebase.json   points the Firebase CLI at the rules file
 firebase-config.js  Firebase web config — empty by default, public values only
 firebase-runtime.js SDK version, config lookup, the configured check
 scripts/generate-config.mjs  writes firebase-config.js from env vars at build time
