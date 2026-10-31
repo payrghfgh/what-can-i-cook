@@ -5,7 +5,8 @@
   "description": "A static recipe suggester: tell it what's in your kitchen, it ranks what you can cook.",
   "type": "module",
   "scripts": {
-    "test": "node tests/run.mjs",
+    "test": "node tests/run.mjs && node tests/auth.mjs",
+    "test:dom": "node smoke.mjs && node smoke-auth.mjs",
     "serve": "python3 -m http.server 8000"
   },
   "keywords": [
@@ -14,7 +15,7 @@
     "no-build"
   ],
   "license": "MIT",
-  "dependencies": {
-    "jsdom": "^29.1.1"
+  "devDependencies": {
+    "jsdom": "^26.1.0"
   }
 }

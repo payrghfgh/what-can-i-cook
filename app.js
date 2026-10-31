@@ -7,9 +7,15 @@ import {
   FOCUS_TAGS, DIETS, CUISINES, COURSES, SORTS, parseMaxTime,
   timeLabel, costLabel, costWords
 } from './logic.js';
+import { initAuth, waitForSession, isConfigured, signOutUser, dataKeyFor } from './auth.js';
+import { getFirebaseConfig } from './firebase-config.js';
 
-const STORAGE_KEY = 'what-can-i-cook:v2';
 const PAGE_SIZE = 8;
+const LEGACY_KEY = 'what-can-i-cook:v2';
+
+// set in boot() from the stored session; the pantry is filed under the person
+let session = null;
+const storageKey = () => dataKeyFor(session);
 
 const PRESETS = {
   basics: ['onion', 'tomato', 'potato', 'rice', 'atta', 'toor dal', 'ginger', 'garlic', 'green chilli', 'curd', 'cumin', 'turmeric'],
@@ -56,7 +62,7 @@ const labelFor = (key) => (BY_KEY.get(key) || { label: key }).label;
 
 function save() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    localStorage.setItem(storageKey(), JSON.stringify({
       pantry: state.pantry,
       avoid: state.avoid,
       people: state.people,
@@ -78,7 +84,16 @@ function save() {
 function restore() {
   let saved = null;
   try {
-    saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    saved = JSON.parse(localStorage.getItem(storageKey()) || 'null');
+    // an older single-user pantry, from before sign-in existed
+    if (!saved) {
+      const legacy = localStorage.getItem(LEGACY_KEY);
+      if (legacy) {
+        saved = JSON.parse(legacy);
+        localStorage.setItem(storageKey(), legacy);
+        localStorage.removeItem(LEGACY_KEY);
+      }
+    }
   } catch (err) {
     saved = null;
   }
@@ -732,7 +747,46 @@ function wire() {
 
 /* ------------------------------------------------------------------ boot */
 
+function showCard(title, body, linkLabel) {
+  document.body.innerHTML =
+    '<main class="auth-wrap"><section class="auth-card">' +
+      `<h1>${title}</h1>` +
+      `<p class="auth-lede">${body}</p>` +
+      `<p><a href="login.html">${linkLabel}</a></p>` +
+    '</section></main>';
+}
+
 async function boot() {
+  // sign-in is the front door; without Firebase keys there is nothing to check
+  if (!isConfigured(getFirebaseConfig())) {
+    showCard(
+      'Sign-in is not configured',
+      'Add your Firebase project keys to firebase-config.js to switch it on. The README has the steps.',
+      'Back to sign-in'
+    );
+    return;
+  }
+
+  await initAuth(getFirebaseConfig());
+  session = await waitForSession();
+
+  if (!session) {
+    showCard(
+      'Taking you to sign in…',
+      'Your pantry is kept per person, so we need to know who you are.',
+      'Continue to sign in'
+    );
+    window.location.replace('login.html');
+    return;
+  }
+
+  const nameEl = $('#account-name');
+  if (nameEl) nameEl.textContent = session.name || 'Guest';
+  $('#signout-btn').addEventListener('click', async () => {
+    await signOutUser();
+    window.location.replace('login.html');
+  });
+
   restore();
   buildPantryGroups();
   buildFilterControls();

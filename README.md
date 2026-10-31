@@ -8,6 +8,10 @@ at your table, and a shopping list for the gap.
 No backend, no API keys, no build step. Plain HTML, CSS and JavaScript plus
 `recipes.json`, deployable anywhere that serves files.
 
+Sign-in is real: Google, Apple, email/password and guest, all through Firebase
+Authentication. Your pantry and saved recipes stay in the browser, filed per
+account. See [Sign-in](#sign-in) below.
+
 ## Run it locally
 
 The page loads `recipes.json` with `fetch`, so opening `index.html` straight
@@ -28,29 +32,105 @@ npm run serve      # same thing, python http.server on :8000
 ## Tests
 
 ```bash
-npm test           # node tests/run.mjs
+npm test           # node tests/run.mjs && node tests/auth.mjs
 ```
 
-32 checks covering every acceptance criterion in the brief: alias matching,
-the scoring formula, the four diet filters, the hard `avoid` filter, the
-rounding rules for grams / spoons / pieces, the egg formatting rules, the
-"nothing matches" fallback, course filtering, the three sort modes, the result
-buckets, the unlock suggestions, and the page wiring. The suite is plain Node
-with no dependencies.
+36 checks on the recipe engine and the pages, plus 19 on sign-in. Between them
+they cover alias matching, the scoring formula, the four diet filters, the hard
+`avoid` filter, the rounding rules for grams / spoons / pieces / pinches, the egg
+formatting rules, the "nothing matches" fallback, course filtering, the three
+sort modes, the result buckets, the unlock suggestions, the page wiring, the four
+sign-in routes, remember-me persistence, per-account storage buckets and the
+Firebase error messages. Plain Node, no dependencies.
+
+The sign-in tests swap Firebase for a fake backend (`setAuthBackend`), so they
+run without a project, a network or a key.
+
+There are also two jsdom scripts that drive the real pages (`smoke.mjs`,
+`smoke-auth.mjs`); they need `npm i jsdom` and are not part of `npm test`.
 
 ## Deploy
 
-**Live:** https://payrghfgh.github.io/what-can-i-cook/ — GitHub Pages, serving
-the `main` branch from the repo root. Push to `main` and it redeploys itself;
-the `.nojekyll` file makes Pages serve the files verbatim rather than running
-them through Jekyll.
+**Netlify:** `netlify.toml` sets the publish directory to the repo root with no
+build command, so you only need to connect the repo — *Add new site → Import an
+existing project → GitHub → `what-can-i-cook`* — and it builds on every push.
+Then add the `*.netlify.app` host to Firebase's authorised domains, or sign-in
+will refuse to run there.
 
-Netlify works just as well: `netlify.toml` already sets the publish directory to
-the repo root with no build command, so you only need to connect the repo. Any
-other static host: upload the repo root as-is.
+**GitHub Pages** also works and is what the live URL currently uses: serving
+`main` from the repo root, with `.nojekyll` so Pages serves the files verbatim
+rather than running them through Jekyll. Push to `main` and it redeploys.
 
-There are **no environment variables** to set on either host. `.env.example` is
-present only to make that explicit.
+There are **no environment variables** to set on either host — the Firebase
+config lives in `firebase-config.js` as a committed file, because it is public
+configuration rather than a secret. `.env.example` is present only to make that
+explicit.
+
+If you would rather not commit the config, set `globalThis.__FIREBASE_CONFIG__`
+before the scripts load (for example in a small inline script in `login.html` and
+`index.html`); `getFirebaseConfig()` prefers it over the file.
+
+## Sign-in
+
+`login.html` offers four ways in — **Google**, **Apple**, **email and password**
+and **guest** — all backed by **Firebase Authentication**. Firebase checks the
+password server-side and verifies the Google and Apple identity tokens, so this
+is real authentication; the site itself never sees or stores a password.
+
+Every route ends with a verified Firebase user, and `index.html` sends you to
+`login.html` if there isn't one.
+
+### Setting it up (about five minutes)
+
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com).
+2. **Project settings → General → Your apps → Web (`</>`)** and copy the
+   `firebaseConfig` object into `firebase-config.js`. Those values are public
+   identifiers, not secrets — it is normal for them to ship in the page. Never
+   put a service-account key there.
+3. **Authentication → Sign-in method**, enable:
+   - **Email/Password** — the form on the page
+   - **Google** — one toggle, no extra keys needed
+   - **Apple** — needs an Apple Developer account: a Services ID with "Sign in
+     with Apple" enabled, plus your domain and return URL registered with Apple
+   - **Anonymous** — this is what "Continue as guest" uses
+4. **Authentication → Settings → Authorised domains**, add every host the site
+   runs on — `localhost`, your `*.netlify.app` domain and `yourname.github.io`.
+   Sign-in fails with `auth/unauthorized-domain` until a host is listed.
+
+Until step 2 is done the site runs in "not configured" mode: the sign-in page
+says so instead of failing silently, and `index.html` stops at a card telling you
+the same thing.
+
+### What is remembered
+
+Firebase owns the session. **Remember me** (on by default) asks Firebase for
+local persistence, so the session survives a browser restart; untick it and the
+session ends when the tab closes.
+
+Your pantry, saved recipes, filters and shopping list stay in this browser, filed
+under your Firebase uid (`what-can-i-cook:v2:<uid>`). That is why two accounts on
+one device don't see each other's ingredients — and why signing in on a different
+device starts empty. Moving that data to Firestore, keyed by `uid`, is the next
+step if you want it to follow people around; `dataKeyFor()` in `auth.js` is the
+only place that decides where it lives.
+
+Guest mode is an anonymous Firebase user: it persists on the device but cannot be
+recovered if browser data is cleared, and it is not linked to an account later.
+
+### How the code is arranged
+
+`auth.js` is the only file that touches Firebase. It exposes a small surface —
+`initAuth`, `waitForSession`, `signInGuest`, `signInWithEmail`, `signUpWithEmail`,
+`signInWithGoogle`, `signInWithApple`, `resetPassword`, `signOutUser`,
+`setPersistence`, `friendlyError` — so the pages never import the SDK directly.
+
+The SDK is pulled from Google's CDN at runtime (`firebase-config.js` holds the
+version), which is what keeps this a no-build-step site. That means the sign-in
+page needs a network connection the first time it loads.
+
+`setAuthBackend()` replaces the SDK with a fake, which is how the test suite runs
+every flow — Google popup, Apple popup, wrong password, password reset — without
+a live Firebase project.
 
 ## How it works
 
@@ -169,18 +249,24 @@ diet consistency.
 ## What's in here
 
 ```
-index.html      the page: pantry browser, filters, results, shopping list
+index.html      the app: pantry browser, filters, results, shopping list
+login.html      the sign-in page
 styles.css      warm kitchen-notebook styling, mobile first, dark mode aware
-app.js          DOM wiring, live re-render, localStorage
+app.js          app wiring, live re-render, per-profile storage
+login.js        sign-in page wiring for all four routes
+auth.js         Firebase seam: sessions, providers, readable errors
+firebase-config.js  Firebase web config — empty by default, public values only
 logic.js        vocabulary, canonicalising, filters, scoring, scaling (pure)
 recipes.json    166 recipes
-tests/run.mjs   the acceptance suite
+tests/run.mjs   the recipe and page suite
+tests/auth.mjs  the sign-in suite
 netlify.toml    publish config
 ```
 
 The last pantry you ticked is kept in `localStorage` under
-`what-can-i-cook:v2`, along with your diet, focus, headcount, cuisine, saved recipes and shopping
-list, so the next visit opens where you left off.
+`what-can-i-cook:v2:<userId>`, along with your diet, focus, headcount, cuisine, saved recipes and shopping
+list, so the next visit opens where you left off. An older single-user key
+(`what-can-i-cook:v2`) is migrated into the signed-in profile on first load.
 
 ## Content notes
 

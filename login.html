@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — What Can I Cook</title>
+<meta name="description" content="Sign in to What Can I Cook with Google, Apple or email to keep your pantry, saved recipes and shopping list.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fdf8ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17120d" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23bd5626'/%3E%3Cpath d='M9 13h14a7 7 0 0 1-14 0Z' fill='%23fdf8ef'/%3E%3Cpath d='M13 9v2M16 8v3M19 9v2' stroke='%23fdf8ef' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-body">
+
+<main class="auth-wrap">
+  <section class="auth-card" aria-labelledby="auth-title">
+    <p class="eyebrow">A kitchen notebook</p>
+    <h1 id="auth-title">Sign in</h1>
+    <p class="auth-lede">Keep your pantry, saved recipes and shopping list, and pick up where you left off.</p>
+
+    <div class="setup-notice" id="setup-notice" hidden>
+      <h2>Firebase needs configuring</h2>
+      <p>Sign-in is switched off until you add your Firebase project keys to <code>firebase-config.js</code>. The README has the five-minute version.</p>
+    </div>
+
+    <p class="auth-notice" id="auth-notice" role="alert" hidden></p>
+
+    <div class="provider-row">
+      <button type="button" class="btn-provider" id="google-btn">
+        <span class="provider-mark provider-google" aria-hidden="true"></span>
+        Continue with Google
+      </button>
+      <button type="button" class="btn-provider" id="apple-btn">
+        <span class="provider-mark provider-apple" aria-hidden="true"></span>
+        Continue with Apple
+      </button>
+    </div>
+    <p class="auth-hint" id="provider-note">Google and Apple sign-in open in a secure popup.</p>
+
+    <div class="auth-divider"><span>or use email</span></div>
+
+    <form id="email-form" class="auth-form" novalidate>
+      <div class="auth-tabs" role="group" aria-label="Sign in or create an account">
+        <button type="button" class="auth-tab" data-mode="signin" aria-pressed="true">Sign in</button>
+        <button type="button" class="auth-tab" data-mode="create" aria-pressed="false">Create account</button>
+      </div>
+
+      <div class="auth-field" id="name-field" hidden>
+        <label class="auth-label" for="auth-name">Name</label>
+        <input id="auth-name" name="name" type="text" autocomplete="name" placeholder="What should we call you?">
+      </div>
+
+      <div class="auth-field">
+        <label class="auth-label" for="auth-email">Email</label>
+        <input id="auth-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="auth-field">
+        <div class="auth-label-row">
+          <label class="auth-label" for="auth-password">Password</label>
+          <button type="button" class="linkish" id="reset-btn">Forgot password?</button>
+        </div>
+        <input id="auth-password" name="password" type="password" autocomplete="current-password" placeholder="At least 8 characters" required minlength="8">
+      </div>
+
+      <label class="auth-remember">
+        <input type="checkbox" id="auth-remember" checked>
+        <span>Remember me on this device</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="email-submit">Sign in</button>
+    </form>
+
+    <div class="auth-divider"><span>or no account at all</span></div>
+
+    <button type="button" class="btn-guest" id="guest-btn">Continue as guest</button>
+    <p class="auth-hint">Starts an anonymous session — your pantry is still saved on this device.</p>
+
+    <div class="auth-disclosure">
+      <h2>How this works</h2>
+      <p>Sign-in is handled by Firebase Authentication. It checks passwords on Google's servers and verifies the Google and Apple identity tokens, so the session is real — this site never sees your password.</p>
+      <p>Your pantry, saved recipes and shopping list are kept in this browser under your account id, not in a database. Signing in on another device starts with an empty pantry.</p>
+      <p>Guest mode is an anonymous Firebase session: it works on this device and can't be recovered if you clear your browser data.</p>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="login.js"></script>
+</body>
+</html>

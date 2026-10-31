@@ -409,11 +409,54 @@ check('index.html loads the stylesheet, the module and the fonts it names', () =
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   assert(html.includes('href="styles.css"'), 'stylesheet not linked');
   assert(html.includes('type="module" src="app.js"'), 'app.js not loaded as a module');
-  for (const f of ['styles.css', 'app.js', 'logic.js', 'recipes.json']) {
+  for (const f of ['styles.css', 'app.js', 'logic.js', 'recipes.json', 'auth.js', 'login.html', 'login.js', 'firebase-config.js']) {
     assert(fs.existsSync(path.join(root, f)), `${f} missing from the repo root`);
   }
   assert(!/Inter|Roboto/.test(html.split('<link')[0]), 'a banned typeface is referenced');
-  return 'stylesheet, module, data all present';
+  return 'stylesheet, modules and data all present';
+});
+
+check('every element id login.js reaches for exists in login.html', () => {
+  const html = fs.readFileSync(path.join(root, 'login.html'), 'utf8');
+  const js = fs.readFileSync(path.join(root, 'login.js'), 'utf8');
+  const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+  const wanted = new Set([...js.matchAll(/\$\('#([a-zA-Z0-9_-]+)'\)/g)].map((m) => m[1]));
+  for (const w of wanted) assert(ids.has(w), `login.js looks for #${w} but login.html has no such id`);
+  assert(html.includes('type="module" src="login.js"'), 'login.js not loaded');
+  return `${wanted.size} ids checked`;
+});
+
+check('the sign-in page offers guest, email, Google and Apple', () => {
+  const html = fs.readFileSync(path.join(root, 'login.html'), 'utf8');
+  assert(/id="guest-btn"/.test(html), 'no guest button');
+  assert(/id="email-form"/.test(html) && /type="password"/.test(html), 'no email/password form');
+  assert(/id="google-btn"/.test(html), 'no Google button');
+  assert(/id="apple-btn"/.test(html), 'no Apple button');
+  assert(/id="auth-remember"/.test(html), 'no remember-me control');
+  assert(/id="reset-btn"/.test(html), 'no password reset');
+  assert(/Firebase Authentication/.test(html), 'the page does not say who verifies sign-in');
+  assert(/never sees your password/i.test(html), 'the page does not say where the password goes');
+  return 'four routes in, plus the disclosure';
+});
+
+check('firebase-config.js ships with empty placeholders and no server credential', () => {
+  const src = fs.readFileSync(path.join(root, 'firebase-config.js'), 'utf8');
+  for (const field of ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId']) {
+    assert(new RegExp(`${field}:\\s*''`).test(src), `${field} is not empty in the committed config`);
+  }
+  assert(!/private_key|serviceAccount|client_secret/i.test(src), 'a server credential is committed');
+  return 'six empty fields';
+});
+
+check('auth.js delegates verification to Firebase and loads the SDK lazily', () => {
+  const src = fs.readFileSync(path.join(root, 'auth.js'), 'utf8');
+  assert(/gstatic\.com\/firebasejs/.test(src), 'the Firebase SDK is not loaded from the CDN');
+  assert(/initializeApp/.test(src) && /getAuth/.test(src), 'Firebase is not initialised');
+  assert(/onAuthStateChanged/.test(src), 'auth state is not observed');
+  assert(/GoogleAuthProvider/.test(src) && /apple\.com/.test(src), 'the providers are not wired');
+  assert(/setAuthBackend/.test(src), 'no seam for testing');
+  assert(!/pbkdf2/i.test(src), 'the old local password hashing is still here');
+  return 'Firebase SDK, providers and the test seam';
 });
 
 check('logic.js exports resolve under Node as well as the browser', () => {
