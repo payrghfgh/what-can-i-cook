@@ -460,6 +460,41 @@ check('the app runs without Firebase instead of walling itself off', () => {
   return 'local mode, then gate + sync once configured';
 });
 
+check('every class the UI emits is styled, and every id it looks up exists', () => {
+  const files = ['index.html', 'login.html', 'app.js', 'login.js'];
+  let src = '';
+  for (const f of files) src += fs.readFileSync(path.join(root, f), 'utf8');
+
+  const used = new Set();
+  // template expressions like ${item.known === false ? ' is-unknown' : ''} are not
+  // class names, so they are stripped before the attribute is split
+  const stripExpr = (str) => str.replace(/\$\{[^}]*\}/g, ' ');
+
+  for (const attr of src.match(/class="[^"]*"/g) || []) {
+    for (const tok of stripExpr(attr).replace('class="', '').replace('"', '').split(/\s+/)) {
+      if (/^[a-z][a-z0-9-]*$/.test(tok)) used.add(tok);
+    }
+  }
+  for (const pat of [/classes\.push\('([^']+)'\)/g, /classList\.(?:add|toggle)\('([^']+)'\)/g]) {
+    for (const m of src.matchAll(pat)) used.add(m[1]);
+  }
+  // state classes applied through inline ternaries
+  for (const m of src.matchAll(/'\s(is-[a-z-]+)'/g)) used.add(m[1]);
+
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  const styled = new Set([...css.matchAll(/\.([a-z][a-z0-9-]*)/g)].map((m) => m[1]));
+  const orphans = [...used].filter((c) => !styled.has(c));
+  assert(!orphans.length, 'emitted but never styled: ' + orphans.join(', '));
+
+  const html = files.filter((f) => f.endsWith('.html')).map((f) => fs.readFileSync(path.join(root, f), 'utf8')).join('');
+  const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+  const looked = new Set([...src.matchAll(/\$\('#([a-zA-Z0-9_-]+)'\)/g)].map((m) => m[1]));
+  const missing = [...looked].filter((i) => !ids.has(i));
+  assert(!missing.length, 'looked up but absent: ' + missing.join(', '));
+
+  return `${used.size} classes styled, ${looked.size} ids resolved`;
+});
+
 check('the stylesheet does not pretend to hide the Netlify badge', () => {
   // Netlify injects that badge at the edge inside an isolated frame, so no CSS in
   // this project can reach it. It is switched off in the Netlify project settings.
