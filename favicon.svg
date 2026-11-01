@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="What Can I Cook">
+  <title>What Can I Cook</title>
+  <!-- A covered pot with two curls of steam. The pot is the silhouette that has to
+       survive 16px; the steam is decoration that can drop away. -->
+  <rect width="32" height="32" rx="7.5" fill="#b8501f"/>
+  <g fill="none" stroke="#fbf7ee" stroke-width="1.6" stroke-linecap="round" opacity=".9">
+    <path d="M12.4 9.2c1.2-1.2-1-2.2.2-3.4"/>
+    <path d="M19.6 9.2c1.2-1.2-1-2.2.2-3.4"/>
+  </g>
+  <g fill="#fbf7ee">
+    <rect x="6.2" y="10.4" width="19.6" height="3.4" rx="1.7"/>
+    <path d="M7.6 13.8h16.8l-1.7 9.4a3 3 0 0 1-2.96 2.5h-7.48a3 3 0 0 1-2.96-2.5z"/>
+  </g>
+  <g stroke="#fbf7ee" stroke-width="1.7" stroke-linecap="round">
+    <path d="M4.2 12.1h2.2"/>
+    <path d="M25.6 12.1h2.2"/>
+  </g>
+</svg>

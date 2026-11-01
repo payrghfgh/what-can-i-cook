@@ -460,6 +460,32 @@ check('the app runs without Firebase instead of walling itself off', () => {
   return 'local mode, then gate + sync once configured';
 });
 
+check('both pages link a real icon set, and the files are there', () => {
+  for (const page of ['index.html', 'login.html']) {
+    const html = fs.readFileSync(path.join(root, page), 'utf8');
+    assert(/rel="icon" href="favicon\.svg" type="image\/svg\+xml"/.test(html), `${page}: no SVG icon`);
+    assert(/rel="apple-touch-icon" href="apple-touch-icon\.png"/.test(html), `${page}: no touch icon`);
+    assert(/rel="manifest" href="site\.webmanifest"/.test(html), `${page}: no manifest`);
+    assert(!/data:image\/svg\+xml,%3Csvg/.test(html), `${page}: still uses an inline data-URI icon`);
+  }
+
+  for (const file of ['favicon.svg', 'favicon-16.png', 'favicon-32.png',
+                      'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'site.webmanifest']) {
+    const full = path.join(root, file);
+    assert(fs.existsSync(full), `${file} is missing`);
+    assert(fs.statSync(full).size > 200, `${file} is suspiciously small`);
+  }
+
+  const svg = fs.readFileSync(path.join(root, 'favicon.svg'), 'utf8');
+  assert(/#b8501f/.test(svg), 'the icon lost its tile colour');
+  assert(/viewBox="0 0 32 32"/.test(svg), 'the icon is not drawn on a 32 grid');
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'site.webmanifest'), 'utf8'));
+  assert(manifest.icons.some((i) => i.sizes === '512x512'), 'no 512px icon in the manifest');
+  assert(manifest.theme_color, 'no theme colour');
+  return `${manifest.icons.length} manifest icons, 6 files`;
+});
+
 check('every class the UI emits is styled, and every id it looks up exists', () => {
   const files = ['index.html', 'login.html', 'app.js', 'login.js'];
   let src = '';
