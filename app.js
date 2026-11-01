@@ -7,6 +7,8 @@ import {
   FOCUS_TAGS, DIETS, CUISINES, COURSES, SORTS, parseMaxTime,
   timeLabel, costLabel, costWords
 } from './logic.js';
+// side-effect import: strips the host's injected badge before anything else runs
+import './host-badge.js';
 import { initAuth, waitForSession, isConfigured, signOutUser, dataKeyFor } from './auth.js';
 import { getFirebaseConfig } from './firebase-runtime.js';
 import { initStore, loadProfile, saveProfile, flush, onSyncStatus, resetStore } from './store.js';

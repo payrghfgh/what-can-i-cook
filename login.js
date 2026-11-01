@@ -2,6 +2,8 @@
 // Firebase is the identity provider — Google, email/password and guest
 // all resolve to a verified Firebase user.
 
+// side-effect import: strips the host's injected badge before anything else runs
+import './host-badge.js';
 import { getFirebaseConfig } from './firebase-runtime.js';
 import {
   initAuth, isConfigured, waitForSession, onSessionChange,

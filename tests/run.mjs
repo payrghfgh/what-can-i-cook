@@ -495,12 +495,22 @@ check('every class the UI emits is styled, and every id it looks up exists', () 
   return `${used.size} classes styled, ${looked.size} ids resolved`;
 });
 
-check('the stylesheet does not pretend to hide the Netlify badge', () => {
-  // Netlify injects that badge at the edge inside an isolated frame, so no CSS in
-  // this project can reach it. It is switched off in the Netlify project settings.
+check('the host badge is stripped by both a stylesheet rule and a DOM sweep', () => {
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
-  assert(!/#netlify-badge/.test(css), 'a rule for the badge is back — it cannot work');
-  return 'left to the project setting';
+  assert(/\[class\*="netlify" i\]/.test(css), 'no case-insensitive badge rule in the stylesheet');
+  assert(/netlify-badge/.test(css), 'no bare tag selector for the badge');
+
+  const guard = fs.readFileSync(path.join(root, 'host-badge.js'), 'utf8');
+  assert(/MutationObserver/.test(guard), 'no observer for badges injected after load');
+  assert(/isHostBadge/.test(guard) && /sweepHostBadges/.test(guard), 'no sweep');
+  assert(/\^powered by netlify\$/i.test(guard), 'the label test is not anchored');
+
+  // both pages must load it, or one of them shows the badge
+  for (const page of ['app.js', 'login.js']) {
+    const src = fs.readFileSync(path.join(root, page), 'utf8');
+    assert(/import '\.\/host-badge\.js'/.test(src), `${page} does not load the badge guard`);
+  }
+  return 'CSS rule + DOM sweep on both pages';
 });
 
 check('store.js keeps a local copy before writing to the database', () => {

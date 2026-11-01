@@ -1046,6 +1046,22 @@ input:focus,
 
 .shop-actions { display: flex; gap: .35rem; }
 
+/* =============================================================== host badge */
+
+/* Best effort. Netlify injects a "Powered by Netlify" badge at the edge on some
+   plans; its contents live in an isolated frame we cannot reach, but the frame
+   element itself sits in our document and can be hidden from here. host-badge.js
+   removes it outright. The supported switch is the project setting:
+   Netlify → Project configuration → General → Powered by Netlify badge. */
+[id*="netlify" i],
+[class*="netlify" i],
+a[href*="netlify" i],
+img[src*="netlify" i],
+iframe[src*="netlify" i],
+netlify-badge {
+  display: none !important;
+}
+
 /* =================================================================== footer */
 
 .foot {

@@ -95,6 +95,10 @@ function clearPantry() {
   }
 }
 
+// a badge baked into the served HTML, present before our script executes
+window.document.body.insertAdjacentHTML('beforeend',
+  '<a id="static-badge" class="netlify-badge" href="https://www.netlify.com">Powered by Netlify</a>');
+
 await import(path.join(root, 'app.js'));
 await tick(); await tick();
 
@@ -127,6 +131,50 @@ await check('the vegetables drawer is open and its chips are visible on first pa
 
 await check('no JavaScript errors while booting', async () => {
   assert(errors.length === 0, errors.join('; '));
+});
+
+console.log('\nHost badge');
+
+await check('a badge present in the served HTML is removed', () => {
+  assert(!window.document.getElementById('static-badge'), 'the static badge survived');
+  return 'swept on load';
+});
+
+await check('a badge injected after load is removed', async () => {
+  const el = window.document.createElement('div');
+  el.id = 'late-badge';
+  el.textContent = 'Powered by Netlify';
+  window.document.body.appendChild(el);
+  await tick(30);
+  assert(!window.document.getElementById('late-badge'), 'the late badge survived');
+  return 'caught by the observer';
+});
+
+await check('a badge hidden inside a wrapper is removed too', async () => {
+  const wrap = window.document.createElement('section');
+  wrap.innerHTML = '<div class="wrapper"><iframe src="https://netlify.example/badge"></iframe></div>';
+  wrap.id = 'badge-wrap';
+  window.document.body.appendChild(wrap);
+  await tick(30);
+  const iframe = window.document.querySelector('iframe[src*="netlify"]');
+  assert(!iframe, 'an injected badge frame survived');
+  return 'nested frame gone';
+});
+
+await check('text that merely mentions the badge is left alone', async () => {
+  const p = window.document.createElement('p');
+  p.id = 'innocent';
+  p.textContent = 'The Powered by Netlify badge sits in the bottom corner.';
+  window.document.body.appendChild(p);
+  await tick(30);
+  assert(window.document.getElementById('innocent'), 'a paragraph was removed by mistake');
+  return 'anchored label test held';
+});
+
+await check('the app itself is untouched by the sweep', () => {
+  assert(cards().length > 0, 'the sweep removed app content');
+  assert(window.document.querySelector('#pantry-groups input'), 'pantry inputs survived');
+  return `${cards().length} cards intact`;
 });
 
 console.log('\nPantry');
